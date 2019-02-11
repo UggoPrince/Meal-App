@@ -9,43 +9,30 @@
     <script src="js/main.js"></script>
 </head>
 <body>
-    <section class="section header-section row">
-        <div class="banner">
+    <section class="section header-section2 row">
             <header class="bottom-line">
-                <div>
-                    <div class="brand brand-text">
-                        <a href="index.html" id="userTitle">Book A Meal</a>
-                    </div>
-                    <nav id="nav">
-                        <div class="nav-mobile">
-                            <a id="nav-toggle"><span></span></a>
+                    <div>
+                        <div class="brand">
+                            <a href="index.html" id="userTitle">Book A Meal</a>
                         </div>
-                        <ul id="nav-list" class="nav-list">
-                            <li>
-                            <a id="loginLink">Login</a>
-                            </li>
-                            <li>
-                            <a id="signupLink">Signup</a>
-                            </li>
-                            <li>
-                            <a href="indexCaterer.html">Caterer</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </header>
-            <section class="section column flex-basis-100 ta-center full-width">
-                <section class="section mlr-auto">
-                    <h1 class="mt-40 ff-verdana f-bold fs-40 t-white">Book Your Tasty Meals.</h1>
-                </section>
-                <section class="section column mlr-auto full-width">
-                    <p class="f-bold fs-20 t-white">Find meals near you!</p><br><br>
-                    <div class="input-group mlr-auto">
-                        <input class="" type="text" placeholder="Search..." /><span class="bg-tomato t-white">Search</span>
+                        <nav id="nav">
+                            <div class="nav-mobile">
+                                <a id="nav-toggle"><span></span></a>
+                            </div>
+                            <ul id="nav-list" class="nav-list">
+                                <li>
+                                <a href="index.html">Home</a>
+                                </li>
+                                <li>
+                                <a id="loginLink">Login</a>
+                                </li>
+                                <li>
+                                <a id="signupLink">Signup</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
-                </section>
-            </section>
-        </div>
+                </header>
     </section>
     <main class="full-width bg-img1">
         <section class="section column">
@@ -168,65 +155,5 @@
             </section>
         </section>
     </footer>
-
-<!-- Login Modal https://www.w3schools.com/howto/howto_css_modals.asp-->
-<div id="loginModal" class="section row modal">
-
-    <!-- Modal content -->
-    <form method="POST" class="modal-content section column" id="loginForm">
-        <div class="modal-header">
-            <span class="closeLogin close">&times;</span>
-        </div>
-        <div class="modal-body section column  ff-verdana">
-            <div class="ta-center f-bold color-blu fs-20 mt-10px">Login</div>
-            <div class="section column input-control">
-                <label>Email</label>
-                <input type="email" name="loginEmail" required>
-            </div>
-            <div class="section column input-control">
-                <label>Password</label>
-                <input type="password" name="loginPassword" required>
-            </div>
-        </div>
-        <div class="modal-footer mt-20px">
-            <div class="input-control mb-10px">
-                <input class="full-width hover-blue bg-blue color-white2 fs-20" type="submit" value="Login" >
-            </div>
-        </div>
-    </form>
-</div>
-
-<div id="signupModal" class="section row modal">
-    <!-- Modal content -->
-    <form method="POST" class="modal-content section column" name="signupForm" id="signupForm">
-        <div class="modal-header">
-            <span class="closeSignup close">&times;</span>
-        </div>
-        <div class="modal-body section column  ff-verdana">
-            <div class="ta-center f-bold color-blu fs-20 mt-10px">Signup</div>
-            <div class="section column input-control">
-                <label>First Name <span></span></label>
-                <input type="text" name="signupFirstName" required>
-            </div>
-            <div class="section column input-control">
-                <label>Last Name <span></span></label>
-                <input type="text" name="signupLastName" required>
-            </div>
-            <div class="section column input-control">
-                <label>Email <span></span></label>
-                <input type="email" name="signupEmail" required>
-            </div>
-            <div class="section column input-control">
-                <label>Password <span class="required"></span></label>
-                <input type="password" name="signupPassword" min="6" required>
-            </div>
-        </div>
-        <div class="modal-footer mt-20px">
-            <div class="input-control mb-10px">
-                <input class="full-width hover-blue bg-blue color-white2 fs-20" type="submit" value="Signup" >
-            </div>
-        </div>
-    </form>
-</div>    
 </body>
 </html>

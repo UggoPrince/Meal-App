@@ -9,6 +9,7 @@ $banner-foto1: url(../images/2.jpg) no-repeat center;
 $banner-cover: url(../images/smoke.png) repeat;
 $banner-cover2: url(../images/smoke2.png) repeat;
 $bg-img1: url(../images/bg1.jpg) no-repeat center;
+$caterer-cover: url(../images/c1.jpg) no-repeat center;
 @mixin banner-foto-config {
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -111,6 +112,10 @@ aside{ flex-basis: 100%; }
     }
 }
 
+.box-shadow{
+    box-shadow: 0px 0px 3px 0px #CCC;
+}
+
 .block{ display: block; }
 
 .full-width{ width: $myWidth; }
@@ -123,12 +128,14 @@ aside{ flex-basis: 100%; }
 .min-height-50{ min-height: 50%; }
 
 .mt-10px{ margin-top: 10px; }
+.mb-10px{ margin-bottom: 10px; }
 .mt-20px{ margin-top: 20px; }
 .mt-30px{ margin-top: 30px; }
 .mb-30px{ margin-bottom: 30px; }
 .mt-70px{ margin-top: 70px; }
 .mb-70px{ margin-bottom: 70px; }
 .mt-100px{ margin-top: 100px; }
+.mt-30{margin-top: 30%;}
 .mt-40{margin-top: 40%;}
 .mt-50{margin-top: 50%;}
 .mt-100{margin-top:100%;}
@@ -137,22 +144,29 @@ aside{ flex-basis: 100%; }
 .pd1{padding: 10px;}
 .pd-l1{padding-left: 10px;}
 .pdt-100{padding-top: 100px;}
+.pdb-50px{padding-bottom: 50px;}
+.pdb-70px{padding-bottom: 70px;}
 
 .ff-georgia{font-family: Georgia;}
 .ff-verdana{font-family: Verdana;}
 .f-bold{font-weight: bold;}
+.fs-10{font-size: 10px;}
 .fs-20{font-size: 20px;}
 .fs-30{font-size: 30px;}
 .fs-40{font-size: 40px;}
 
+.fl{float: left;}
+.fr{float: right;}
+
 .bg-tomato{background-color: tomato;}
-.bg-blue{background-color: blue;}
+.bg-blue{background-color: #2581DC;}
 .bg-white{background-color: white;}
 .bg-img1{background: $bg-img1; background-origin: border-box; background-position: center; background-size: cover;}
 .bg-smoke{background: url(../images/smoke2.png);}
 .color-blu{color: #2581DC;}
+.color-white2{color: #EEE}
 .hover-blue{
-    :hover{
+    &:hover{
         background-color: #2581DC;
         color: white;
     }
@@ -198,6 +212,12 @@ aside{ flex-basis: 100%; }
     }
     label{
         padding:5px 0px;
+        span::before{
+            content: "*";
+            vertical-align: middle;
+            color: rgb(255, 51, 51);
+        }
+        
     }
 }
 
@@ -212,6 +232,15 @@ aside{ flex-basis: 100%; }
     @include banner-foto-config;
 }
 
+.header-section2{
+    max-width: $my-max-width;
+    width: 100%;
+    height: $myHeight;
+    min-height: $myHeight;
+    background: $caterer-cover;
+    @include banner-foto-config;
+}
+
 .banner{
     display: flex;
     flex-flow: column;
@@ -219,6 +248,19 @@ aside{ flex-basis: 100%; }
     height: $myHeight;
     min-height: $myHeight;
     background: $banner-cover;
+}
+
+.bannerCaterer{
+    display: flex;
+    flex-flow: column;
+    width: $myWidth;
+    height: $myHeight;
+    min-height: $myHeight;
+    background: $banner-cover;
+}
+
+.banlist{
+    list-style-type: disc;
 }
 
 header{
@@ -243,13 +285,16 @@ header{
     padding-left: 20px;
     float: left;
     line-height: $nav-height;
-    text-transform: uppercase;
-    font-size: 1.4em;
+    text-transform: capitalize;
     a,
     a:visited {
         color: $nav-font-color;
         text-decoration: none;
     }
+}
+
+.brand-text{
+    font-size: 1.4em;
 }
   
 // Navigation 
@@ -275,6 +320,7 @@ nav {
                 &:hover {
                     background: tomato;
                     color: $nav-font-color;
+                    cursor: pointer;
                 }
             }
         }
@@ -317,11 +363,17 @@ nav {
             }
         }
     }
+    .modal-content{
+        margin: 40px auto;
+    }
 }
   
 @media screen and (min-width: $breakpoint) {
     .nav-list {
         display: block !important;
+    }
+    .modal-content{
+        margin: 100px auto;
     }
 }
 
@@ -400,11 +452,10 @@ footer{
 .modal-content {
     position: relative;
     background-color: #fefefe;
-    margin: 100px auto;
     padding: 0;
     border: 1px solid #EEE;
     border-radius: 5px;
-    width: 100%;
+    width: 95%;
     max-width: 450px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     animation-name: animatetop;
@@ -412,36 +463,36 @@ footer{
   }
   
   /* The Close Button */
-  .closeLogin {
+.close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
-  }
+}
   
-  .closeLogin:hover,
-  .closeLogin:focus {
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
+}
 
 /* Modal Header */
 .modal-header {
     padding: 2px 16px;
     border-bottom: 1px solid #bbb;
     line-height: 40px;
-  }
+}
   
-  /* Modal Body */
-  .modal-body {padding: 2px 16px;}
+/* Modal Body */
+.modal-body {padding: 2px 16px;}
   
-  /* Modal Footer */
-  .modal-footer {
-    padding: 2px 16px;
+/* Modal Footer */
+.modal-footer {
+    padding: 14px 16px;
     border-top: 1px solid #bbb;
     line-height: 40px;
-  }
+}
 
 /* Add Animation */
 @keyframes animatetop {
