@@ -159,6 +159,7 @@ aside {
 .mini-menu-desc article a {
   text-decoration: none;
   color: #2581DC;
+  cursor: pointer;
 }
 
 .box-shadow {
@@ -196,6 +197,10 @@ aside {
 
 .mw-60em {
   max-width: 60em;
+}
+
+.mw-80 {
+  max-width: 80em;
 }
 
 .min-height-50 {
@@ -684,6 +689,40 @@ footer .arttext hr {
   border-radius: 5px;
   width: 95%;
   max-width: 450px;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+          animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+}
+
+.modal-contentView {
+  position: relative;
+  background-color: #fefefe;
+  padding: 0;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+  width: 100%;
+  margin: 50px auto;
+  max-width: 900px;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+          animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+}
+
+.modal-contentView2 {
+  position: relative;
+  background-color: #fefefe;
+  padding: 0;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+  width: 100%;
+  margin: 50px auto;
+  max-width: 700px;
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;

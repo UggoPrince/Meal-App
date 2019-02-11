@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   let nav_toggle = document.getElementById('nav-toggle');
   nav_toggle.addEventListener('click', slideToggle);
 
+  let pageName = location.href.substring(location.href.lastIndexOf('/')+1);
+  let userTitle = document.getElementById('userTitle');
+
   let loginLink = document.getElementById('loginLink');
   let loginModal = document.getElementById('loginModal');
   let closeLogin = document.getElementsByClassName("closeLogin")[0];
@@ -11,31 +14,30 @@ document.addEventListener('DOMContentLoaded', ()=>{
   let signupModal = document.getElementById('signupModal');
   let closeSignup = document.getElementsByClassName('closeSignup')[0];
 
-
-  loginLink.onclick = ()=>{
-    loginModal.style.display = 'block';
-  };
-  closeLogin.onclick = () =>{
-    loginModal.style.display = 'none';
-  };
-
-  signupLink.onclick = ()=>{
-    signupModal.style.display = 'inline-block';
-  };
-  closeSignup.onclick = () =>{
-    signupModal.style.display = 'none';
-  };
-
-  window.onclick = (event) => {
-    if (event.target == loginModal) {
-      loginModal.style.display = "none";
-    } else if (event.target == signupModal) {
-      signupModal.style.display = "none";
+  if(pageName === 'index.html' || pageName === 'indexCaterer.html'){
+    loginLink.onclick = ()=>{
+      loginModal.style.display = 'block';
+    };
+    closeLogin.onclick = () =>{
+      loginModal.style.display = 'none';
+    };
+  
+    signupLink.onclick = ()=>{
+      signupModal.style.display = 'inline-block';
+    };
+    closeSignup.onclick = () =>{
+      signupModal.style.display = 'none';
+    };
+  
+    window.onclick = (event) => {
+      if (event.target == loginModal) {
+        loginModal.style.display = "none";
+      } else if (event.target == signupModal) {
+        signupModal.style.display = "none";
+      }
     }
   }
 
-  let pageName = location.href.substring(location.href.lastIndexOf('/')+1);
-  let userTitle = document.getElementById('userTitle');
 
   if(pageName === 'index.html'){
     let loginForm = document.getElementById('loginForm');
@@ -67,6 +69,19 @@ document.addEventListener('DOMContentLoaded', ()=>{
     localStorage.setItem('user', undefined);
     location.href = 'index.html';
   });
+    if(pageName === 'myCaterers.html' || pageName === 'homeCaterer.html'){
+      let views = document.getElementsByClassName('viewMenu');
+      let viewModal = document.getElementById('viewModal');
+      let closeView = document.getElementsByClassName('closeView')[0];
+      closeView.addEventListener('click', ()=>{
+        viewModal.style.display = 'none';
+      });
+      for(let i = 0; i < views.length; i++){
+        views[i].addEventListener('click', ()=>{
+          viewModal.style.display = 'block';
+        });
+      }
+    }
   }
 
   if(localStorage.getItem('user') && pageName !== 'index.html' && pageName !== 'indexCaterer.html'){
@@ -164,15 +179,19 @@ class SignupForm extends Form{
   }
 }
 
-class CatererSignupForm extends SignupForm{
+class CatererSignupForm extends Form{
   constructor(){
     super();
+    this.fName = null;
+    this.lName = null;
     this.restaurant = null;
   }
   processForm(e){
     super.processForm(e);
+    this.fName = e.target.signupFirstName.value;
+    this.lName = e.target.signupLastName.value;
     this.restaurant = e.target.signupRestaurant;
-    let name = restaurant;
+    let name = this.restaurant.value;
     let user = {
       'account': 'Caterer',
       'email': this.email,

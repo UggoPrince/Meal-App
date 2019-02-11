@@ -108,6 +108,7 @@ aside{ flex-basis: 100%; }
         a{
             text-decoration: none;
             color: #2581DC;
+            cursor: pointer;
         }
     }
 }
@@ -125,6 +126,7 @@ aside{ flex-basis: 100%; }
 .mw-50em{ max-width: 50em; }
 .mw-55em{ max-width: 55em; }
 .mw-60em{ max-width: 60em; }
+.mw-80{max-width: 80em;}
 .min-height-50{ min-height: 50%; }
 
 .mt-10px{ margin-top: 10px; }
@@ -461,6 +463,34 @@ footer{
     animation-name: animatetop;
     animation-duration: 0.4s
   }
+
+.modal-contentView{
+    position: relative;
+    background-color: #fefefe;
+    padding: 0;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    width: 100%;
+    margin: 50px auto;
+    max-width: 900px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+.modal-contentView2{
+    position: relative;
+    background-color: #fefefe;
+    padding: 0;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    width: 100%;
+    margin: 50px auto;
+    max-width: 700px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
   
   /* The Close Button */
 .close {
