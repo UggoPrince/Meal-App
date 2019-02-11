@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
 
-  if(pageName === 'index.html' || ''){
+  if(pageName === 'index.html'){
     let loginForm = document.getElementById('loginForm');
       loginForm.addEventListener('submit', (event)=>{
       let l = new LoginForm();
@@ -51,7 +51,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
       let s = new SignupForm();
       s.processForm(event);
     });
-  } else if(pageName === 'indexCaterer.html'){
+  } else if(pageName === ''){
+    let loginForm = document.getElementById('loginForm');
+      loginForm.addEventListener('submit', (event)=>{
+      let l = new LoginForm();
+      l.processForm(event);
+    });
+
+    let signupForm = document.getElementById('signupForm');
+      signupForm.addEventListener('submit', (event)=>{
+      let s = new SignupForm();
+      s.processForm(event);
+    });
+  } 
+  else if(pageName === 'indexCaterer.html'){
     let loginForm = document.getElementById('catererLoginForm');
       loginForm.addEventListener('submit', (event)=>{
       let l = new CatererLoginForm();
