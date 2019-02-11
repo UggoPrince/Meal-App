@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
 
-  if(pageName === 'index.html'){
+  if(pageName === 'index.html' || ''){
     let loginForm = document.getElementById('loginForm');
       loginForm.addEventListener('submit', (event)=>{
       let l = new LoginForm();
