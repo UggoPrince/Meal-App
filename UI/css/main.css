@@ -1,0 +1,789 @@
+html {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100%;
+  font-family: Georgia;
+}
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+body {
+  width: 100%;
+  max-width: 1370px;
+  margin: 0 auto;
+}
+
+.section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+aside {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+.row {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.row-full {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.column {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.flex-basis-100 {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+.flex-basis-50 {
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+}
+
+.flex1 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.flex2 {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+}
+
+.flex3 {
+  -webkit-box-flex: 3;
+      -ms-flex: 3;
+          flex: 3;
+}
+
+.cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.card {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 200px;
+          flex: 0 0 200px;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  background-color: white;
+  /*box-shadow: 1px 1px 3px 0px #CCC;*/
+}
+
+.card .text {
+  padding: 0 20px 20px;
+}
+
+.card .text span {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.card .text p {
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+.card .text button {
+  padding: 3px;
+}
+
+.card .text button:hover, .card .text button :active {
+  background-color: #2581DC;
+  color: white;
+  border: 2px solid #ccc;
+}
+
+.card img {
+  max-width: 100%;
+}
+
+.mini-menu {
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 3px 0px #CCC;
+          box-shadow: 0px 0px 3px 0px #CCC;
+  margin-bottom: 20px;
+}
+
+.mini-menu-desc {
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.mini-menu-desc img {
+  width: 90px;
+  border: 3px solid white;
+  background-color: white;
+}
+
+.mini-menu-desc article {
+  background-color: #f7f7f7;
+}
+
+.mini-menu-desc article a {
+  text-decoration: none;
+  color: #2581DC;
+  cursor: pointer;
+}
+
+.box-shadow {
+  -webkit-box-shadow: 0px 0px 3px 0px #CCC;
+          box-shadow: 0px 0px 3px 0px #CCC;
+}
+
+.block {
+  display: block;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.mw-30em {
+  max-width: 30em;
+}
+
+.mw-40em {
+  max-width: 40em;
+}
+
+.mw-50em {
+  max-width: 50em;
+}
+
+.mw-55em {
+  max-width: 55em;
+}
+
+.mw-60em {
+  max-width: 60em;
+}
+
+.mw-80 {
+  max-width: 80em;
+}
+
+.min-height-50 {
+  min-height: 50%;
+}
+
+.mt-10px {
+  margin-top: 10px;
+}
+
+.mb-10px {
+  margin-bottom: 10px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+.mt-30px {
+  margin-top: 30px;
+}
+
+.mb-30px {
+  margin-bottom: 30px;
+}
+
+.mt-70px {
+  margin-top: 70px;
+}
+
+.mb-70px {
+  margin-bottom: 70px;
+}
+
+.mt-100px {
+  margin-top: 100px;
+}
+
+.mt-30 {
+  margin-top: 30%;
+}
+
+.mt-40 {
+  margin-top: 40%;
+}
+
+.mt-50 {
+  margin-top: 50%;
+}
+
+.mt-100 {
+  margin-top: 100%;
+}
+
+.mlr-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pd1 {
+  padding: 10px;
+}
+
+.pd-l1 {
+  padding-left: 10px;
+}
+
+.pdt-100 {
+  padding-top: 100px;
+}
+
+.pdb-50px {
+  padding-bottom: 50px;
+}
+
+.pdb-70px {
+  padding-bottom: 70px;
+}
+
+.ff-georgia {
+  font-family: Georgia;
+}
+
+.ff-verdana {
+  font-family: Verdana;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.fs-10 {
+  font-size: 10px;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+.fs-30 {
+  font-size: 30px;
+}
+
+.fs-40 {
+  font-size: 40px;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.bg-tomato {
+  background-color: tomato;
+}
+
+.bg-blue {
+  background-color: #2581DC;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bg-img1 {
+  background: url(../images/bg1.jpg) no-repeat center;
+  background-origin: border-box;
+  background-position: center;
+  background-size: cover;
+}
+
+.bg-smoke {
+  background: url(../images/smoke2.png);
+}
+
+.color-blu {
+  color: #2581DC;
+}
+
+.color-white2 {
+  color: #EEE;
+}
+
+.hover-blue:hover {
+  background-color: #2581DC;
+  color: white;
+}
+
+.t-white {
+  color: white;
+}
+
+.ta-center {
+  text-align: center;
+}
+
+.input-group {
+  vertical-align: text-top;
+  width: 100%;
+  max-width: 60em;
+  display: inline-block;
+}
+
+.input-group input {
+  border: 1px solid #ccc;
+  border-radius: 5px 0px 0px 5px;
+  width: 70%;
+  max-width: 400px;
+  padding: 12px;
+}
+
+.input-group span {
+  /*background-color: #2581DC;*/
+  border-radius: 0px 5px 5px 0px;
+  width: 30%;
+  padding: 11px 12px 12px 12px;
+  cursor: pointer;
+}
+
+.input-group span:hover {
+  background-color: #2581DC;
+  color: white;
+}
+
+.input-control {
+  margin-top: 10px;
+}
+
+.input-control input {
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.input-control input:hover, .input-control input :focus {
+  border-color: #2581DC;
+}
+
+.input-control label {
+  padding: 5px 0px;
+}
+
+.input-control label span::before {
+  content: "*";
+  vertical-align: middle;
+  color: #ff3333;
+}
+
+.va-t {
+  vertical-align: text-top;
+}
+
+.header-section {
+  max-width: 1370px;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: url(../images/2.jpg) no-repeat center;
+  -ms-background-size: cover;
+  background-size: cover;
+}
+
+.header-section2 {
+  max-width: 1370px;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: url(../images/c1.jpg) no-repeat center;
+  -ms-background-size: cover;
+  background-size: cover;
+}
+
+.banner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: url(../images/smoke.png) repeat;
+}
+
+.bannerCaterer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: url(../images/smoke.png) repeat;
+}
+
+.banlist {
+  list-style-type: disc;
+}
+
+header {
+  width: 100%;
+  height: 70px;
+  min-height: 70px;
+  background: url(../images/smoke2.png) repeat;
+  display: inline-block;
+}
+
+header div {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.bottom-line {
+  border-bottom: 2px solid #dbd8d8;
+}
+
+.brand {
+  position: absolute;
+  padding-left: 20px;
+  float: left;
+  line-height: 70px;
+  text-transform: capitalize;
+}
+
+.brand a,
+.brand a:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.brand-text {
+  font-size: 1.4em;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+}
+
+nav ul li {
+  float: left;
+  position: relative;
+}
+
+nav ul li a,
+nav ul li a:visited {
+  display: block;
+  padding: 0 20px;
+  line-height: 70px;
+  background: transparent;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+nav ul li a:hover,
+nav ul li a:visited:hover {
+  background: tomato;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Mobile navigation */
+.nav-mobile {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #262626;
+  height: 70px;
+  width: 70px;
+}
+
+@media only screen and (max-width: 799px) {
+  .nav-mobile {
+    display: block;
+  }
+  nav {
+    width: 100%;
+    padding: 70px 0 15px;
+  }
+  nav ul {
+    display: none;
+  }
+  nav ul li {
+    float: none;
+    background: url(../images/smoke2.png) repeat;
+  }
+  nav ul li a {
+    padding: 15px;
+    line-height: 20px;
+  }
+  nav ul li ul li a {
+    padding-left: 30px;
+  }
+  .modal-content {
+    margin: 40px auto;
+  }
+}
+
+@media screen and (min-width: 799px) {
+  .nav-list {
+    display: block !important;
+  }
+  .modal-content {
+    margin: 100px auto;
+  }
+}
+
+#nav-toggle {
+  position: absolute;
+  left: 18px;
+  top: 22px;
+  cursor: pointer;
+  padding: 10px 35px 16px 0px;
+}
+
+#nav-toggle span,
+#nav-toggle span:before,
+#nav-toggle span:after {
+  cursor: pointer;
+  border-radius: 1px;
+  height: 5px;
+  width: 35px;
+  background: #ffffff;
+  position: absolute;
+  display: block;
+  content: '';
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+#nav-toggle span:before {
+  top: -10px;
+}
+
+#nav-toggle span:after {
+  bottom: -10px;
+}
+
+#nav-toggle.active span {
+  background-color: transparent;
+}
+
+#nav-toggle.active span:before, #nav-toggle.active span:after {
+  top: 0;
+}
+
+#nav-toggle.active span:before {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+#nav-toggle.active span:after {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+footer {
+  width: 100%;
+  min-height: 400px;
+  background-image: url(../images/footer2.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+}
+
+footer a {
+  text-decoration: none;
+  color: white;
+}
+
+footer .arttext {
+  width: 90%;
+  max-width: 200px;
+  padding: 0 20px;
+}
+
+footer .arttext hr {
+  color: white;
+}
+
+/* The Modal (background) https://www.w3schools.com/howto/howto_css_modals.asp*/
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: black;
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  padding: 0;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+  width: 95%;
+  max-width: 450px;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+          animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+}
+
+.modal-contentView {
+  position: relative;
+  background-color: #fefefe;
+  padding: 0;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+  width: 100%;
+  margin: 50px auto;
+  max-width: 900px;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+          animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+}
+
+.modal-contentView2 {
+  position: relative;
+  background-color: #fefefe;
+  padding: 0;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+  width: 100%;
+  margin: 50px auto;
+  max-width: 700px;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+          animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Header */
+.modal-header {
+  padding: 2px 16px;
+  border-bottom: 1px solid #bbb;
+  line-height: 40px;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 2px 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 14px 16px;
+  border-top: 1px solid #bbb;
+  line-height: 40px;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+/*# sourceMappingURL=main.css.map */

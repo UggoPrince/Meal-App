@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Book-A-Meal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <script src="js/main.js"></script>
+</head>
+<body>
+    <section class="section row">
+            <header class="bottom-line">
+                    <div>
+                        <div class="brand">
+                            <a href="index.html" id="userTitle">Book A Meal</a>
+                        </div>
+                        <nav id="nav">
+                            <div class="nav-mobile">
+                                <a id="nav-toggle"><span></span></a>
+                            </div>
+                            <ul id="nav-list" class="nav-list">
+                                <li>
+                                <a href="homeCaterer.html">Home</a>
+                                </li>
+                                <li>
+                                <a href="">Orders</a>
+                                </li>
+                                <li>
+                                    <a href="">Settings</a>
+                                </li>
+                                <li>
+                                    <a id="logoutButton">Logout</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </header>
+    </section>
+    <main class="full-width">
+        <section class="section column">
+            <section class="section ta-center mlr-auto ff-verdana">
+                <h1 class="mt-70px mb-70px fs-30">Order History</h1>
+            </section>
+            <section class="section column mlr-auto full-width">
+                    <section class="section row full-width mw-50em mlr-auto mini-menu-desc box-shadow mt-10px mb-10px">
+                            <article class="section row pd1 flex1">
+                                <div class="flex1">Total Revenue</div>
+                                <div class="flex2">N 10,000</div>
+                            </article>
+                        </section>
+                <section class="section row full-width mw-50em mlr-auto mini-menu-desc box-shadow mt-10px mb-10px">
+                    <img src="images/food1.jpg">
+                    <article class="section column pd1 flex1">
+                        <div class="flex1">Indomie And Egg</div>
+                        <div class="flex1">N 1000</div>
+                        <div class="flex1">Today</div>
+                    </article>
+                </section>
+                <section class="section row full-width mw-50em mlr-auto mini-menu-desc box-shadow mt-10px mb-10px">
+                        <img src="images/food2.jpg">
+                        <article class="section column pd1 flex1">
+                            <div class="flex1">Fried Rice And Chicken</div>
+                            <div class="flex1">N 1500</div>
+                            <div class="flex1">Yesterday</div>
+                        </article>
+                    </section>
+                    <section class="section row full-width mw-50em mlr-auto mini-menu-desc box-shadow mt-10px mb-10px">
+                            <img src="images/food3.jpg">
+                            <article class="section column pd1 flex1">
+                                <div class="flex1">Pizza</div>
+                                <div class="flex1">N 1000</div>
+                                <div class="flex1">5 days ago</div>
+                            </article>
+                        </section>
+                        <section class="section row full-width mw-50em mlr-auto mini-menu-desc box-shadow mt-10px mb-10px">
+                                <img src="images/food4.jpg">
+                                <article class="section column pd1 flex1">
+                                    <div class="flex1">Bugger</div>
+                                    <div class="flex1">N 1500</div>
+                                    <div class="flex1">5 days ago</div>
+                                </article>
+                            </section>
+            </section>
+        </section>
+    </main>
+    <footer class="section">
+        <section class="section row full-width bg-smoke pdt-100">
+            <section class="flex1">
+                <article class="full-width fs-40 f-bold mt-10px mlr-auto ta-center">
+                    <span class="">Book A Meal</span>
+                </article>
+            </section>
+            <section class="section flex2">
+                <article class="column flex1 arttext">
+                    <h1>Home</h1>
+                    <hr>
+                    <p><a href="#">Login</a></p>
+                    <p><a href="#">Signup</a></p>
+                    <p><a href="#">Caterer</a></p>
+                </article>
+                <article class="column flex1 arttext">
+                    <h1>Contact Us</h1>
+                    <hr>
+                    <p>+234 7023456789</p>
+                    <p>info@example.com</p>
+                </article>
+            </section>
+        </section>
+    </footer>
+    <div id="viewModal" class="section row modal">
+
+            <!-- Modal content -->
+            <div method="POST" class="modal-contentView2 section column">
+                <div class="modal-header">
+                    <span class="closeView close">&times;</span>
+                </div>
+                <div class="modal-body section column  ff-verdana">
+                    <div class="ta-center f-bold color-blu fs-20 mt-10px">Modify</div>
+                    <section class="cards column full-width mw-60em mlr-auto">
+                            <h3>Modify Meal</h3>
+                            <div class="input-control">
+                                <label>Name</label>
+                                <input type="text" name="mealName" >
+                            </div>
+                            <div class="input-control">
+                                <label>Price</label>
+                                <input type="number" name="mealPrice">
+                            </div>
+                            <div class="input-control">
+                                <label>Photo</label>
+                                <input type="file" accept="image/*">
+                            </div>
+                    </section>
+                </div>
+                <div class="modal-footer mt-20px">
+                    <div class="input-control mb-10px">
+                        <input type="button" value="Update">
+                    </div>
+                </div>
+            </div>
+        </div> 
+</body>
+</html>
