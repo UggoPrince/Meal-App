@@ -8,5 +8,6 @@ export default class Meals {
     this.size = null;
     this.price = null;
     this.currency = null;
+    this.caterer_id = null;
   }
 }

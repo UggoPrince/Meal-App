@@ -4,7 +4,7 @@ import express from 'express';
 import mealsRouter from './server/routes/mealsRoute';
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 
 app.use('/api/v1', mealsRouter);
 

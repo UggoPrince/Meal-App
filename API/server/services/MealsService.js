@@ -13,6 +13,7 @@ class MealService {
         size: 'plates',
         price: '500',
         currency: 'NGN',
+        caterer_id: '1',
       },
       {
         id: 2,
@@ -20,6 +21,7 @@ class MealService {
         size: 'plates',
         price: '600',
         currency: 'NGN',
+        caterer_id: '5',
       },
       {
         id: 3,
@@ -27,6 +29,7 @@ class MealService {
         size: 'plates',
         price: '500',
         currency: 'NGN',
+        caterer_id: '12',
       },
     ];
 
@@ -37,6 +40,7 @@ class MealService {
       meal.size = data.size;
       meal.price = data.price;
       meal.currency = data.currency;
+      meal.caterer_id = data.caterer_id;
       return meal;
     });
   }
