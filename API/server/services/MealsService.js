@@ -1,11 +1,10 @@
 /* eslint-disable linebreak-style */
-/* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 
 import Meals from '../models/Meals';
 
 class MealService {
-  getAllMeals() {
+  constructor() {
     this.meals = [
       {
         id: 1,
@@ -32,7 +31,9 @@ class MealService {
         caterer_id: '12',
       },
     ];
+  }
 
+  getAllMeals() {
     return this.meals.map((data) => {
       const meal = new Meals();
       meal.id = data.id;
@@ -47,6 +48,26 @@ class MealService {
 
   getAll() {
     return this.getAllMeals();
+  }
+
+  getMeal(id) {
+    // -1 because we have our data in an array which starts with zero
+    return this.getAllMeals()[id - 1];
+  }
+
+  add(name, size, price, currency, catererId) {
+    const mealSNumber = this.meals.length;
+    const id = mealSNumber + 1;
+    const meal = {
+      id,
+      name,
+      size,
+      price,
+      currency,
+      caterer_id: catererId,
+    };
+    this.meals.push(meal);
+    return this.getMeal(id);
   }
 }
 
