@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - "node"
 env:
-  global: CC_TEST_REPORTER_ID=f05e52daa7be717108dbd8228ce88f00a8bb39946b312c6dd07641abac0aa8e8
+  global: CC_TEST_REPORTER_ID=cd14bf6e4573f278c89dfdf42d33474b4f217650749bee248004624d0f012873
 install:
   - cd API
   - npm install
