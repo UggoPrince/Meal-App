@@ -69,6 +69,47 @@ class MealService {
     this.meals.push(meal);
     return this.getMeal(id);
   }
+
+  getTotalMeals() {
+    return this.meals.length;
+  }
+
+  modify(reqId, name, price) {
+    const totalMeals = this.getTotalMeals();
+    const id = parseInt(reqId, 10);
+    if (id === 0) {
+      return { message: 'error', error: 'invalid ID' };
+    }
+    if (id > totalMeals) {
+      return { message: 'error', error: 'invalid ID' };
+    }
+    if (Number.isNaN(id)) {
+      return { message: 'error', error: 'invalid ID' };
+    }
+    const meal = this.getMeal(id);
+    let ntrue = false;
+    let ptrue = false;
+
+    if (name !== undefined && name.length !== 0) {
+      meal.name = name;
+    } else ntrue = true;
+
+    if (price !== undefined && price.length !== 0) {
+      meal.price = price;
+    } else ptrue = true;
+
+    if (ntrue && ptrue) {
+      return { message: 'error', error: 'No data for the name and/or price update of meal was submitted' };
+    }
+
+    const mealid = id - 1; // because this.meals is an array
+    this.updateMeal(mealid, meal);
+    return { message: 'success', success: this.getMeal(id) };
+  }
+
+  updateMeal(mealId, meal) {
+    this.meals[mealId] = meal;
+  }
 }
 
 export default MealService;

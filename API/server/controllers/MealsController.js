@@ -19,6 +19,19 @@ class MealsController {
     const addedMeal = mealsService.add(name, size, price, currency, caterer);
     res.status(200).send({ message: 'success', body: addedMeal });
   }
+
+  modifyMeal(req, res) {
+    const mealId = req.params.id;
+    const mealName = req.body.name;
+    const mealPrice = req.body.price;
+
+    const modifiedMeal = mealsService.modify(mealId, mealName, mealPrice);
+    if (modifiedMeal.success) {
+      res.status(200).send({ message: 'success', body: modifiedMeal.success });
+    } else {
+      res.status(200).send({ message: 'error', error: modifiedMeal.error });
+    }
+  }
 }
 
 export default new MealsController();
