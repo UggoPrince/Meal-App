@@ -20,7 +20,7 @@ class MealService {
         size: 'plates',
         price: '600',
         currency: 'NGN',
-        caterer_id: '5',
+        caterer_id: '1',
       },
       {
         id: 3,
