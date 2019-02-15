@@ -51,13 +51,35 @@ class MealService {
   }
 
   getMeal(id) {
-    // -1 because we have our data in an array which starts with zero
-    return this.getAllMeals()[id - 1];
+    const meals = this.getAllMeals();
+    let meal = '';
+    for (let i = 0; i < meals.length; i += 1) {
+      if (meals[i].id === id) {
+        meal = meals[i];
+        break;
+      }
+    }
+    return meal;
+  }
+
+  mealExist(id) {
+    for (let i = 0; i < this.meals.length; i += 1) {
+      if (this.meals[i].id === id) return { true: true, index: i };
+    }
+    return { true: false, index: -1 };
+  }
+
+  maxId() {
+    let max = this.meals[0].id;
+    for (let j = 1; j < this.meals.length; j += 1) {
+      if (max < this.meals[j].id) max = this.meals[j].id;
+    }
+    return max;
   }
 
   add(name, size, price, currency, catererId) {
-    const mealSNumber = this.meals.length;
-    const id = mealSNumber + 1;
+    const biggestID = this.maxId();
+    const id = biggestID + 1;
     const meal = {
       id,
       name,
@@ -70,45 +92,17 @@ class MealService {
     return this.getMeal(id);
   }
 
-  getTotalMeals() {
-    return this.meals.length;
+  modify(index, name, price) {
+    const meal = this.meals[index];
+    if (name) meal.name = name;
+    if (price) meal.price = price;
+    this.meals[index] = meal;
+    return this.getMeal(meal.id);
   }
 
-  modify(reqId, name, price) {
-    const totalMeals = this.getTotalMeals();
-    const id = parseInt(reqId, 10);
-    if (id === 0) {
-      return { message: 'error', error: 'invalid ID' };
-    }
-    if (id > totalMeals) {
-      return { message: 'error', error: 'invalid ID' };
-    }
-    if (Number.isNaN(id)) {
-      return { message: 'error', error: 'invalid ID' };
-    }
-    const meal = this.getMeal(id);
-    let ntrue = false;
-    let ptrue = false;
-
-    if (name !== undefined && name.length !== 0) {
-      meal.name = name;
-    } else ntrue = true;
-
-    if (price !== undefined && price.length !== 0) {
-      meal.price = price;
-    } else ptrue = true;
-
-    if (ntrue && ptrue) {
-      return { message: 'error', error: 'No data for the name and/or price update of meal was submitted' };
-    }
-
-    const mealid = id - 1; // because this.meals is an array
-    this.updateMeal(mealid, meal);
-    return { message: 'success', success: this.getMeal(id) };
-  }
-
-  updateMeal(mealId, meal) {
-    this.meals[mealId] = meal;
+  delete(index) {
+    const deletedMeal = this.meals.splice(index, 1);
+    return deletedMeal[0];
   }
 }
 

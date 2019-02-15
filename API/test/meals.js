@@ -72,6 +72,8 @@ describe('Meals Test', () => {
         });
     });
   });
+
+
   describe('PUT /api/v1/meals/:id', () => {
     const mealUpdate1 = {
       name: 'Eba and Egusi',
@@ -121,7 +123,7 @@ describe('Meals Test', () => {
           done();
         });
     });
-    it('should not modify a meal if the user doesn\'t any value for update', (done) => {
+    it('should not modify a meal if the user doesn\'t submit any value for update', (done) => {
       chai.request(app)
         .put('/api/v1/meals/3')
         .send({})
@@ -182,6 +184,21 @@ describe('Meals Test', () => {
           done();
         });
     });
+    it('should not modify a meal if a minus(-) interger (example: -1) is entered in the endpoint as an id', (done) => {
+      chai.request(app)
+        .put('/api/v1/meals/-1')
+        .send()
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: 'invalid ID',
+          });
+          done();
+        });
+    });
     it('should not modify a meal if no id is entered in the endpoint', (done) => {
       chai.request(app)
         .put('/api/v1/meals/')
@@ -193,6 +210,49 @@ describe('Meals Test', () => {
           expect(res.body).to.be.eql('Not Found');
           done();
         });
+    });
+  });
+
+  describe('DELETE /api/v1/meals/:id', () => {
+    it('should delete a meal when the request is sent with the correct id', (done) => {
+      chai.request(app)
+        .delete('/api/v1/meals/1')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.eql({
+            message: 'success',
+            body: {
+              id: 1,
+              name: 'Eba and Egusi',
+              size: 'plates',
+              price: '450',
+              currency: 'NGN',
+              caterer_id: '1',
+            },
+          });
+          done();
+        });
+    });
+    it('should not delete a meal when the request is sent with an incorrect id (example: -1, p, 0, or one that exist not)', (done) => {
+      chai.request(app)
+        .delete('/api/v1/meals/-1')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.eql({ message: 'error', error: 'invalid ID' });
+        });
+      chai.request(app)
+        .delete('/api/v1/meals/p')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.eql({ message: 'error', error: 'invalid ID' });
+        });
+      chai.request(app)
+        .delete('/api/v1/meals/0')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.eql({ message: 'error', error: 'invalid ID' });
+        });
+      done();
     });
   });
 });
