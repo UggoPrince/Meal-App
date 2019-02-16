@@ -2,9 +2,10 @@
 /* eslint-disable no-console */
 
 import express from 'express';
-import orderController from '../controllers/OrdersController';
+import ordersController from '../controllers/OrdersController';
 
 const Router = express.Router();
-Router.post('/orders', orderController.addOrder);
+Router.post('/orders', ordersController.addOrder);
+Router.put('/orders/:id', ordersController.modifyOrder);
 
 export default Router;

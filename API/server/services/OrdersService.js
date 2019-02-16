@@ -5,11 +5,11 @@ import Orders from '../models/Orders';
 
 class OrdersService {
   constructor() {
-    this.Orders = [];
+    this.orders = [];
   }
 
   getAllOrders() {
-    return this.Orders.map((data) => {
+    return this.orders.map((data) => {
       const order = new Orders();
       order.id = data.id;
       order.meal_id = data.meal_id;
@@ -20,8 +20,18 @@ class OrdersService {
     });
   }
 
+  orderIdExist(orderID) {
+    if (this.orders.length !== 0) {
+      for (let i = 0; i < this.orders.length; i += 1) {
+        if (this.orders[i].id === orderID) return { exist: true, index: i };
+      }
+      return { exist: false };
+    }
+    return { exist: false };
+  }
+
   add(mealID, custID, catID, date) {
-    const totalOrders = this.Orders.length;
+    const totalOrders = this.orders.length;
     const orderId = totalOrders + 1;
     const orderIndex = orderId - 1;
     const order = {
@@ -31,8 +41,13 @@ class OrdersService {
       caterer_id: catID,
       created_id: date,
     };
-    this.Orders.push(order);
+    this.orders.push(order);
     return this.getAllOrders()[orderIndex];
+  }
+
+  modify(index, mealId) {
+    this.orders[index].meal_id = mealId;
+    return this.getAllOrders()[index];
   }
 }
 
