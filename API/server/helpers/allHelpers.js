@@ -28,4 +28,15 @@ const canModifyMeal = (name, price) => {
   return true;
 };
 
-export default { validID, canModifyMeal };
+const menuOptionValid = (mealNum) => {
+  const mNum = mealNum.length;
+  for (let i = 0; i < mNum; i += 1) {
+    const m = parseInt(mealNum[i], 10);
+    if (!validID(m)) {
+      return { message: 'error', error: mealNum[i] };
+    }
+  }
+  return { message: 'success' };
+};
+
+export default { validID, canModifyMeal, menuOptionValid };
