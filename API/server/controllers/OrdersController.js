@@ -35,6 +35,32 @@ class OrdersController {
       res.status(200).send({ message: 'error', error: 'No catererId was sent!' });
     }
   }
+
+  modifyOrder(req, res) {
+    const mealID = req.body.mealId;
+    const orderID = parseInt(req.params.id, 10);
+    const orderIdNum = helpers.validID(orderID);
+    if (orderIdNum) {
+      if (mealID) {
+        const milId = parseInt(mealID, 10);
+        if (!helpers.validID(milId)) {
+          res.status(200).send({ message: 'error', error: 'invalid meal id' });
+        } else {
+          const orderIdExist = ordersService.orderIdExist(orderID);
+          if (orderIdExist.exist) {
+            const modifiedOrder = ordersService.modify(orderIdExist.index, milId);
+            res.status(200).send({ message: 'success', body: modifiedOrder });
+          } else {
+            res.status(200).send({ message: 'error', error: `No order with the id [${orderID}]` });
+          }
+        }
+      } else {
+        res.status(200).send({ message: 'error', error: 'no meal id was sent.' });
+      }
+    } else {
+      res.status(200).send({ message: 'error', error: 'Invalid Order id.' });
+    }
+  }
 }
 
 export default new OrdersController();
