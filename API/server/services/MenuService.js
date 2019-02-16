@@ -23,6 +23,17 @@ class MenuService {
     return menu;
   }
 
+  menuExist() {
+    if (this.menu.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
+  get() {
+    return this.getAllMenus();
+  }
+
   add(meals, catererID, date) {
     const totalMenus = this.menu.length;
     const id = totalMenus + 1;
