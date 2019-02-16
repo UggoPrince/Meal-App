@@ -9,6 +9,17 @@ import app from '../index';
 chai.use(chaiHttp);
 
 describe('Menu Tests', () => {
+  describe('GET /api/v1/menu', () => {
+    it('should tell the caterer to add a menu because non is available', (done) => {
+      chai.request(app)
+        .get('/api/v1/menu')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.eql({ message: 'success', body: 'No Menu. Set up a Menu now.' });
+          done();
+        });
+    });
+  });
   describe('POST /api/v1/menu', () => {
     const menu = {
       mealId: [1, 2],
@@ -42,7 +53,7 @@ describe('Menu Tests', () => {
       chai.request(app)
         .post('/api/v1/menu')
         .send({
-          mealId: [],
+          mealId: '',
           catererId: '',
         })
         .end((err, res) => {
@@ -58,11 +69,12 @@ describe('Menu Tests', () => {
         .end((err, res) => {
           expect(res.status).to.be.eql(200);
           expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.eql({ message: 'error', error: 'No caterer id (catererId) was sent!' });
         });
       chai.request(app)
         .post('/api/v1/menu')
         .send({
-          mealId: [],
+          mealId: '',
           catererId: 45,
         })
         .end((err, res) => {
@@ -119,6 +131,17 @@ describe('Menu Tests', () => {
           expect(res.body).to.be.an('Object');
         });
       done();
+    });
+  });
+  describe('GET /api/v1/menu', () => {
+    it('should get available menus', (done) => {
+      chai.request(app)
+        .get('/api/v1/menu')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.an('Object');
+          done();
+        });
     });
   });
 });

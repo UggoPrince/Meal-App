@@ -13,18 +13,6 @@ class MenuController {
     if (mealId && catererId) {
       const mealNum = mealId;
       const catID = parseInt(catererId, 10);
-      const mNum = mealNum.length;
-
-
-      if (!mNum && !catererId) {
-        res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) and caterer id (catererId) was sent' });
-      }
-      if (!mNum && catererId) {
-        res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) was sent!' });
-      }
-      if (mNum && !catererId) {
-        res.status(200).send({ message: 'error', error: 'No caterer id (catererId) was sent!' });
-      }
 
       const validMealId = helpers.menuOptionValid(mealNum);
       if (validMealId.message === 'error') {
@@ -35,8 +23,21 @@ class MenuController {
         const addedMenu = menuService.add(mealNum, catID, Date.now());
         res.status(200).send({ message: 'success', body: addedMenu });
       }
-    } else {
+    } else if (!mealId && !catererId) {
       res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) and caterer id (catererId) was sent' });
+    } else if (!mealId) {
+      res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) was sent!' });
+    } else if (!catererId) {
+      res.status(200).send({ message: 'error', error: 'No caterer id (catererId) was sent!' });
+    }
+  }
+
+  getMenu(req, res) {
+    const menuExist = menuService.menuExist();
+    if (!menuExist) {
+      res.status(200).send({ message: 'success', body: 'No Menu. Set up a Menu now.' });
+    } else {
+      res.status(200).send({ message: 'success', body: menuService.get() });
     }
   }
 }
