@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import mealsRouter from './server/routes/mealsRoute';
 import menuRouter from './server/routes/menuRoute';
+import orderRouter from './server/routes/ordersRoute';
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/v1', mealsRouter);
 app.use('/api/v1', menuRouter);
+app.use('/api/v1', orderRouter);
 
 app.use((req, res) => {
   res.status(404).json('Not Found');

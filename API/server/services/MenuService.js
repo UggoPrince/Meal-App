@@ -9,18 +9,14 @@ class MenuService {
   }
 
   getAllMenus() {
-    let { menu } = this.menu;
-    if (this.menu.length !== 0) {
-      menu = this.menu.map((data) => {
-        const menus = new Menu();
-        menus.id = data.id;
-        menus.meals = data.meals;
-        menus.caterer_id = data.caterer_id;
-        menus.created_at = data.created_at;
-        return menus;
-      });
-    }
-    return menu;
+    return this.menu.map((data) => {
+      const menus = new Menu();
+      menus.id = data.id;
+      menus.meals = data.meals;
+      menus.caterer_id = data.caterer_id;
+      menus.created_at = data.created_at;
+      return menus;
+    });
   }
 
   menuExist() {
@@ -49,8 +45,14 @@ class MenuService {
       const menus = this.getAllMenus();
       for (let i = 0; i < menus.length; i += 1) {
         if (menus[i].caterer_id === catererID) {
-          this.menu[i] = menus[i];
-          break;
+          const m = {
+            id,
+            meals,
+            caterer_id: catererID,
+            created_at: date,
+          };
+          this.menu[i] = m;
+          return this.getAllMenus()[id - 1];
         }
       }
       const m = {
