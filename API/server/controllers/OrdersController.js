@@ -61,6 +61,16 @@ class OrdersController {
       res.status(200).send({ message: 'error', error: 'Invalid Order id.' });
     }
   }
+
+  getOrders(req, res) {
+    const totalOrders = ordersService.totalOrders();
+    if (totalOrders < 1) {
+      res.status(200).send({ message: 'error', error: 'No orders available.' });
+    } else {
+      const allOrders = ordersService.getAllOrders();
+      res.status(200).send({ message: 'success', body: allOrders });
+    }
+  }
 }
 
 export default new OrdersController();
