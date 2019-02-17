@@ -24,6 +24,18 @@ describe('Orders Test', () => {
     });
   });
 
+  describe('GET /api/v1/orders', () => {
+    it('should tell the user that there are no orders available.', (done) => {
+      chai.request(app)
+        .get('/api/v1/orders')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.an('Object');
+          done();
+        });
+    });
+  });
+
   describe('POST /api/v1/orders', () => {
     it('should not make an order if no mealId, customerId and CatererId is sent', (done) => {
       chai.request(app)
@@ -174,6 +186,18 @@ describe('Orders Test', () => {
       chai.request(app)
         .put('/api/v1/orders/1')
         .send({ mealId: 5 })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.body).to.be.an('Object');
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/v1/orders', () => {
+    it('should get all orders.', (done) => {
+      chai.request(app)
+        .get('/api/v1/orders')
         .end((err, res) => {
           expect(res.status).to.be.eql(200);
           expect(res.body).to.be.an('Object');

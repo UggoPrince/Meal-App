@@ -30,6 +30,10 @@ class OrdersService {
     return { exist: false };
   }
 
+  totalOrders() {
+    return this.orders.length;
+  }
+
   add(mealID, custID, catID, date) {
     const totalOrders = this.orders.length;
     const orderId = totalOrders + 1;
