@@ -1,0 +1,24 @@
+{
+  "name": "book_a_meal_api",
+  "version": "1.0.0",
+  "description": "API for the Book-A-Meal-App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./API/build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UggoPrince/Meal-Booking-App.git"
+  },
+  "author": "uggoprince",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UggoPrince/Meal-Booking-App/issues"
+  },
+  "homepage": "https://github.com/UggoPrince/Meal-Booking-App#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4"
+  }
+}
