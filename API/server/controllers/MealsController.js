@@ -16,9 +16,22 @@ class MealsController {
     const {
       name, size, price, currency, caterer,
     } = req.body;
-
-    const addedMeal = mealsService.add(name, size, price, currency, caterer);
-    res.status(200).send({ message: 'success', body: addedMeal });
+    if (!name && !size && !price && !currency && !caterer) {
+      res.status(200).send({ message: 'error', error: 'No meal was sent.' });
+    } else if (!name) {
+      res.status(200).send({ message: 'error', error: 'No meal (name) was sent.' });
+    } else if (!size) {
+      res.status(200).send({ message: 'error', error: 'No meal (size) was sent.' });
+    } else if (!price) {
+      res.status(200).send({ message: 'error', error: 'No meal (price) was sent.' });
+    } else if (!currency) {
+      res.status(200).send({ message: 'error', error: 'No meal (currency) was sent.' });
+    } else if (!caterer) {
+      res.status(200).send({ message: 'error', error: 'No catererId (caterer) was sent.' });
+    } else {
+      const addedMeal = mealsService.add(name, size, price, currency, caterer);
+      res.status(200).send({ message: 'success', body: addedMeal });
+    }
   }
 
   modifyMeal(req, res) {

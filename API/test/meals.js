@@ -48,6 +48,89 @@ describe('Meals Test', () => {
       currency: 'USD',
       caterer_id: '18',
     };
+    it('should not add a meal when nothing is sent', (done) => {
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send()
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+          done();
+        });
+    });
+    it('should not add a meal when either meal name, size, price, currency and catererId (caterer) is not sent.', (done) => {
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send({
+          size: 'plates',
+          price: '400',
+          currency: 'USD',
+          caterer: '18',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+        });
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send({
+          name: 'rice and stew',
+          size: '',
+          price: '400',
+          currency: 'USD',
+          caterer: '18',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+        });
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send({
+          name: 'rice and stew',
+          size: 'plates',
+          price: '',
+          currency: 'USD',
+          caterer: '18',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+        });
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send({
+          name: 'rice and stew',
+          size: 'plates',
+          price: '400',
+          currency: '',
+          caterer: '18',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+        });
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send({
+          name: 'rice and stew',
+          size: 'plates',
+          price: '400',
+          currency: 'USD',
+          caterer: '',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+        });
+      done();
+    });
     it('should add a meal', (done) => {
       chai.request(app)
         .post('/api/v1/meals')
