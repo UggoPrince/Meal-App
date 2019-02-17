@@ -1,7 +1,7 @@
 # Meal-Booking-App
 Meal-Booking-App is an online application where a user can book a meal.
 
-[![Build Status](https://travis-ci.com/UggoPrince/Meal-Booking-App.svg?branch=ft-api_get_Orders)](https://travis-ci.com/UggoPrince/Meal-Booking-App) [![Coverage Status](https://coveralls.io/repos/github/UggoPrince/Meal-Booking-App/badge.svg?branch=ft-api_get_Orders)](https://coveralls.io/github/UggoPrince/Meal-Booking-App?branch=ft-api_get_Orders) [![Test Coverage](https://api.codeclimate.com/v1/badges/6be58ef6426990e69cce/test_coverage)](https://codeclimate.com/github/UggoPrince/Meal-Booking-App/test_coverage)
+[![Build Status](https://travis-ci.com/UggoPrince/Meal-Booking-App.svg?branch=develop)](https://travis-ci.com/UggoPrince/Meal-Booking-App) [![Coverage Status](https://coveralls.io/repos/github/UggoPrince/Meal-Booking-App/badge.svg?branch=develop)](https://coveralls.io/github/UggoPrince/Meal-Booking-App?branch=develop) [![Test Coverage](https://api.codeclimate.com/v1/badges/6be58ef6426990e69cce/test_coverage)](https://codeclimate.com/github/UggoPrince/Meal-Booking-App/test_coverage)
 
 ### Key Application Features
 A user (Caterer and Customer) can do the following:
