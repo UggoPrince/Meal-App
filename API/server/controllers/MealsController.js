@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 
 import MealsService from '../services/MealsService';
-import helpers from '../helpers/allHelpers';
+import MealsValidation from '../validation/MealsValidation';
 
 const mealsService = new MealsService();
 
@@ -14,56 +14,49 @@ class MealsController {
 
   addMeal(req, res) {
     const {
-      name, size, price, currency, caterer,
+      name, size, price, currency, catererId,
     } = req.body;
-    if (!name && !size && !price && !currency && !caterer) {
-      res.status(200).send({ message: 'error', error: 'No meal was sent.' });
-    } else if (!name) {
-      res.status(200).send({ message: 'error', error: 'No meal (name) was sent.' });
-    } else if (!size) {
-      res.status(200).send({ message: 'error', error: 'No meal (size) was sent.' });
-    } else if (!price) {
-      res.status(200).send({ message: 'error', error: 'No meal (price) was sent.' });
-    } else if (!currency) {
-      res.status(200).send({ message: 'error', error: 'No meal (currency) was sent.' });
-    } else if (!caterer) {
-      res.status(200).send({ message: 'error', error: 'No catererId (caterer) was sent.' });
+    const mealsValid = new MealsValidation();
+    const validReqData = mealsValid.validateAddMeal(name, size, price, currency, catererId);
+    if (validReqData.error) {
+      res.status(404).send({ message: 'error', error: validReqData.invalid });
     } else {
-      const addedMeal = mealsService.add(name, size, price, currency, caterer);
-      res.status(200).send({ message: 'success', body: addedMeal });
+      const addedMeal = mealsService.add(name, size, price, currency, catererId);
+      res.status(201).send({ message: 'success', meal: addedMeal });
     }
   }
 
   modifyMeal(req, res) {
-    const mealId = parseInt(req.params.id, 10);
+    const mealId = req.params.id;
     const mealName = req.body.name;
     const mealPrice = req.body.price;
-    const mealExist = mealsService.mealExist(mealId);
+    const mealExist = mealsService.mealExist(parseInt(mealId, 10));
+    const mealsValid = new MealsValidation();
+    const validReqData = mealsValid.validateModifyMeal(mealId, mealName, mealPrice);
 
-    if (helpers.validID(mealId) && mealExist.true) {
-      if (!helpers.canModifyMeal(mealName, mealPrice)) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No data for the name and/or price update of meal was submitted',
-        });
-      } else {
-        const modifiedMeal = mealsService.modify(mealExist.index, mealName, mealPrice);
-        res.status(200).send({ message: 'success', body: modifiedMeal });
-      }
+    if (validReqData.error) {
+      res.status(404).send({ message: 'error', error: validReqData.invalid });
+    } else if (mealExist.exist === false) {
+      res.status(404).send({ message: 'error', error: `No meal with mealId: ${mealId}.` });
     } else {
-      res.status(200).send({ message: 'error', error: 'invalid ID' });
+      const modifiedMeal = mealsService.modify(mealExist.index, mealName, mealPrice);
+      res.status(201).send({ message: 'success', body: modifiedMeal });
     }
   }
 
   deleteMeal(req, res) {
-    const mealId = parseInt(req.params.id, 10);
-    const mealExist = mealsService.mealExist(mealId);
+    const mealId = req.params.id;
+    const mealExist = mealsService.mealExist(parseInt(mealId, 10));
+    const mealsValid = new MealsValidation();
+    const validReqData = mealsValid.validateDeleteMeal(mealId);
 
-    if (helpers.validID(mealId) && mealExist.true) {
+    if (validReqData.error) {
+      res.status(404).send({ message: 'error', error: validReqData.invalid });
+    } else if (mealExist.exist === false) {
+      res.status(404).send({ message: 'error', error: `No meal with mealId: ${mealId}.` });
+    } else {
       const deletedMeal = mealsService.delete(mealExist.index);
       res.status(200).send({ message: 'success', body: deletedMeal });
-    } else {
-      res.status(200).send({ message: 'error', error: 'invalid ID' });
     }
   }
 }

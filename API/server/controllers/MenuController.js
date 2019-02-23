@@ -3,41 +3,35 @@
 /* eslint-disable no-console */
 
 import MenuService from '../services/MenuService';
-import helpers from '../helpers/allHelpers';
+import MenuValidation from '../validation/MenuValidation';
 
 const menuService = new MenuService();
 
 class MenuController {
   addMenu(req, res) {
     const { mealId, catererId } = req.body;
-    if (mealId && catererId) {
-      const mealNum = mealId;
-      const catID = parseInt(catererId, 10);
+    const mealNum = mealId;
+    const menuValidation = new MenuValidation();
+    const validReqData = menuValidation.validateAddMenu(mealNum, catererId);
 
-      const validMealId = helpers.menuOptionValid(mealNum);
-      if (validMealId.message === 'error') {
-        res.status(200).send({ message: 'error', error: `meal id [${validMealId.error}] is not valid.` });
-      } else if (!helpers.validID(catID)) {
-        res.status(200).send({ message: 'error', error: `caterer id [${catererId}] is not valid.` });
-      } else {
-        const addedMenu = menuService.add(mealNum, catID, Date.now());
-        res.status(200).send({ message: 'success', body: addedMenu });
-      }
-    } else if (!mealId && !catererId) {
-      res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) and caterer id (catererId) was sent' });
-    } else if (!mealId) {
-      res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) was sent!' });
-    } else if (!catererId) {
-      res.status(200).send({ message: 'error', error: 'No caterer id (catererId) was sent!' });
+    if (!validReqData.error) {
+      const addedMenu = menuService.add(mealId, catererId, Date.now());
+      res.status(201).send({ menu: addedMenu });
+    } else {
+      res.status(404).send({ message: 'error', error: validReqData.invalid });
     }
   }
 
   getMenu(req, res) {
     const menuExist = menuService.menuExist();
     if (!menuExist) {
-      res.status(200).send({ message: 'success', body: 'No Menu. Set up a Menu now.' });
+      res.status(200).send({
+        message: 'success',
+        body: 'No Menu in your account. Set up a Menu now with the following fields below.',
+        fields: ' mealId(s) (one or meal id with the same key name [ mealId ]), and catererId (only one!)',
+      });
     } else {
-      res.status(200).send({ message: 'success', body: menuService.get() });
+      res.status(200).send({ menus: menuService.get() });
     }
   }
 }

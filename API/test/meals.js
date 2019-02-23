@@ -38,7 +38,7 @@ describe('Meals Test', () => {
       size: 'plates',
       price: '400',
       currency: 'USD',
-      caterer: '18',
+      catererId: '18',
     };
     const addedMeal = {
       id: 4,
@@ -53,23 +53,23 @@ describe('Meals Test', () => {
         .post('/api/v1/meals')
         .send()
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           done();
         });
     });
-    it('should not add a meal when either meal name, size, price, currency and catererId (caterer) is not sent.', (done) => {
+    it('should not add a meal when either meal name, size, price, currency and catererId (caterer) is not sent or is not valid.', (done) => {
       chai.request(app)
         .post('/api/v1/meals')
         .send({
           size: 'plates',
           price: '400',
           currency: 'USD',
-          caterer: '18',
+          catererId: '18',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
         });
@@ -80,10 +80,10 @@ describe('Meals Test', () => {
           size: '',
           price: '400',
           currency: 'USD',
-          caterer: '18',
+          catererId: '18',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
         });
@@ -94,10 +94,10 @@ describe('Meals Test', () => {
           size: 'plates',
           price: '',
           currency: 'USD',
-          caterer: '18',
+          catererId: '18',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
         });
@@ -108,10 +108,10 @@ describe('Meals Test', () => {
           size: 'plates',
           price: '400',
           currency: '',
-          caterer: '18',
+          catererId: '18',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
         });
@@ -122,10 +122,38 @@ describe('Meals Test', () => {
           size: 'plates',
           price: '400',
           currency: 'USD',
-          caterer: '',
+          catererId: '',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+        });
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send({
+          name: 5,
+          size: 1,
+          price: 'kj',
+          currency: 6,
+          catererId: '3m',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(404);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('Object');
+        });
+      chai.request(app)
+        .post('/api/v1/meals')
+        .send({
+          name: 'rice',
+          size: 'plates',
+          price: 'kj',
+          currency: 'NGN',
+          catererId: '3m',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
         });
@@ -136,10 +164,10 @@ describe('Meals Test', () => {
         .post('/api/v1/meals')
         .send(meal)
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
-          expect(res.body).to.be.eql({ message: 'success', body: addedMeal });
+          expect(res.body).to.be.eql({ message: 'success', meal: addedMeal });
           done();
         });
     });
@@ -167,7 +195,7 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/1')
         .send(mealUpdate1)
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           expect(res.body).to.be.eql({
@@ -189,7 +217,7 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/2')
         .send({ name: mealUpdate1.name })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           done();
@@ -200,7 +228,7 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/3')
         .send({ price: mealUpdate1.price })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           done();
@@ -211,12 +239,12 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/3')
         .send({})
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           expect(res.body).to.be.eql({
             message: 'error',
-            error: 'No data for the name and/or price update of meal was submitted',
+            error: { mealName: 'mealName is required.', mealPrice: 'mealPrice is required.' },
           });
           done();
         });
@@ -226,12 +254,12 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/78')
         .send(mealUpdate1)
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           expect(res.body).to.be.eql({
             message: 'error',
-            error: 'invalid ID',
+            error: 'No meal with mealId: 78.',
           });
           done();
         });
@@ -241,13 +269,9 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/0')
         .send()
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
-          expect(res.body).to.be.eql({
-            message: 'error',
-            error: 'invalid ID',
-          });
           expect(err).to.be.deep.eq(null);
           done();
         });
@@ -257,12 +281,12 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/u')
         .send()
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           expect(res.body).to.be.eql({
             message: 'error',
-            error: 'invalid ID',
+            error: { mealId: 'Invalid mealId.' },
           });
           done();
         });
@@ -272,12 +296,12 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/-1')
         .send()
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('Object');
           expect(res.body).to.be.eql({
             message: 'error',
-            error: 'invalid ID',
+            error: { mealId: 'Invalid mealId.' },
           });
           done();
         });
@@ -291,6 +315,21 @@ describe('Meals Test', () => {
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.a('string');
           expect(res.body).to.be.eql('Not Found');
+          done();
+        });
+    });
+    it('should not modify a meal if wrong value types are entered for meal name and/or price.', (done) => {
+      chai.request(app)
+        .put('/api/v1/meals/1')
+        .send(
+          {
+            mealName: 45,
+            mealPrice: 400,
+          },
+        )
+        .end((err, res) => {
+          expect(res.status).to.be.eql(404);
+          expect(res.type).to.be.equal('application/json');
           done();
         });
     });
@@ -320,20 +359,20 @@ describe('Meals Test', () => {
       chai.request(app)
         .delete('/api/v1/meals/-1')
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'invalid ID' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({ message: 'error', error: { mealId: 'Invalid mealId.' } });
         });
       chai.request(app)
         .delete('/api/v1/meals/p')
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'invalid ID' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({ message: 'error', error: { mealId: 'Invalid mealId.' } });
         });
       chai.request(app)
         .delete('/api/v1/meals/0')
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'invalid ID' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({ message: 'error', error: 'No meal with mealId: 0.' });
         });
       done();
     });
