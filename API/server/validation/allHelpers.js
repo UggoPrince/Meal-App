@@ -18,7 +18,7 @@ export const menuOptionValid = (meals) => {
   if (typeof meals === 'string') {
     if (!validID(meals)) {
       error = true;
-      invalid.mealId = `mealId ${meals} is invalid yes`;
+      invalid.mealId = `mealId ${meals} is invalid.`;
     }
   }
   if (typeof meals === 'object') {

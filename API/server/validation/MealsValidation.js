@@ -72,10 +72,19 @@ export default class MealsValidation {
 
     if (!mealName && !mealPrice) {
       this.error = true;
-      invalid.mealName = 'mealName is required.';
-      invalid.mealPrice = 'mealPrice is required.';
-      return { error: this.error, invalid };
+      invalid.name = 'name is required.';
+      invalid.price = 'price is required.';
+    } else {
+      if (mealName && validID(mealName)) {
+        this.error = true;
+        invalid.name = 'Invalid name.';
+      }
+      if (mealPrice && !validID(mealPrice)) {
+        this.error = true;
+        invalid.price = 'Invalid price.';
+      }
     }
+
 
     return { error: this.error, invalid };
   }

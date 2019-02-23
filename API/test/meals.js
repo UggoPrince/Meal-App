@@ -215,7 +215,7 @@ describe('Meals Test', () => {
     it('should modify a meals name', (done) => {
       chai.request(app)
         .put('/api/v1/meals/2')
-        .send({ name: mealUpdate1.name })
+        .send({ name: 'white soup' })
         .end((err, res) => {
           expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
@@ -244,7 +244,7 @@ describe('Meals Test', () => {
           expect(res.body).to.be.an('Object');
           expect(res.body).to.be.eql({
             message: 'error',
-            error: { mealName: 'mealName is required.', mealPrice: 'mealPrice is required.' },
+            error: { name: 'name is required.', price: 'price is required.' },
           });
           done();
         });
@@ -323,15 +323,27 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/1')
         .send(
           {
-            mealName: 45,
-            mealPrice: 400,
+            name: 45,
+            price: 400,
           },
         )
         .end((err, res) => {
           expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
-          done();
         });
+      chai.request(app)
+        .put('/api/v1/meals/2')
+        .send(
+          {
+            name: 'beans',
+            price: 'kj',
+          },
+        )
+        .end((err, res) => {
+          expect(res.status).to.be.eql(404);
+          expect(res.type).to.be.equal('application/json');
+        });
+      done();
     });
   });
 

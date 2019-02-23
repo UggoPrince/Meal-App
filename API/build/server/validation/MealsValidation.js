@@ -108,12 +108,18 @@ function () {
 
       if (!mealName && !mealPrice) {
         this.error = true;
-        invalid.mealName = 'mealName is required.';
-        invalid.mealPrice = 'mealPrice is required.';
-        return {
-          error: this.error,
-          invalid: invalid
-        };
+        invalid.name = 'name is required.';
+        invalid.price = 'price is required.'; // return { error: this.error, invalid };
+      } else {
+        if (mealName && (0, _allHelpers.validID)(mealName)) {
+          this.error = true;
+          invalid.name = 'Invalid name.';
+        }
+
+        if (mealPrice && !(0, _allHelpers.validID)(mealPrice)) {
+          this.error = true;
+          invalid.price = 'Invalid price.';
+        }
       }
 
       return {

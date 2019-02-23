@@ -31,7 +31,7 @@ var menuOptionValid = function menuOptionValid(meals) {
   if (typeof meals === 'string') {
     if (!validID(meals)) {
       error = true;
-      invalid.mealId = "mealId ".concat(meals, " is invalid yes");
+      invalid.mealId = "mealId ".concat(meals, " is invalid.");
     }
   }
 
