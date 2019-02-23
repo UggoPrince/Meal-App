@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _Meals = _interopRequireDefault(require("../models/Meals"));
 
+var _mealsData = _interopRequireDefault(require("../database/mealsData"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21,28 +23,7 @@ function () {
   function MealService() {
     _classCallCheck(this, MealService);
 
-    this.meals = [{
-      id: 1,
-      name: 'Jollof Rice',
-      size: 'plates',
-      price: '500',
-      currency: 'NGN',
-      caterer_id: '1'
-    }, {
-      id: 2,
-      name: 'Bread and Beans',
-      size: 'plates',
-      price: '600',
-      currency: 'NGN',
-      caterer_id: '1'
-    }, {
-      id: 3,
-      name: 'Dodo and Beans',
-      size: 'plates',
-      price: '500',
-      currency: 'NGN',
-      caterer_id: '12'
-    }];
+    this.meals = _mealsData.default;
   }
 
   _createClass(MealService, [{
@@ -84,13 +65,13 @@ function () {
     value: function mealExist(id) {
       for (var i = 0; i < this.meals.length; i += 1) {
         if (this.meals[i].id === id) return {
-          true: true,
+          exist: true,
           index: i
         };
       }
 
       return {
-        true: false,
+        exist: false,
         index: -1
       };
     }
@@ -141,6 +122,5 @@ function () {
   return MealService;
 }();
 
-var _default = MealService;
-exports.default = _default;
+exports.default = MealService;
 //# sourceMappingURL=MealsService.js.map

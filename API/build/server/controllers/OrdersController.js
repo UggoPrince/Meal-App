@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _OrdersService = _interopRequireDefault(require("../services/OrdersService"));
 
-var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
+var _OrdersValidation = _interopRequireDefault(require("../validation/OrdersValidation"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,53 +33,19 @@ function () {
           mealId = _req$body.mealId,
           customerId = _req$body.customerId,
           catererId = _req$body.catererId;
+      var ordersValidation = new _OrdersValidation.default();
+      var validReqData = ordersValidation.validateAddOrder(mealId, customerId, catererId);
 
-      if (mealId && customerId && catererId) {
-        var milID = parseInt(mealId, 10);
-        var custID = parseInt(customerId, 10);
-        var catID = parseInt(catererId, 10);
-
-        if (!_allHelpers.default.validID(milID)) {
-          res.status(200).send({
-            message: 'error',
-            error: "meal id [".concat(mealId, "] is not valid.")
-          });
-        } else if (!_allHelpers.default.validID(custID)) {
-          res.status(200).send({
-            message: 'error',
-            error: "customer id [".concat(customerId, "] is not valid.")
-          });
-        } else if (!_allHelpers.default.validID(catID)) {
-          res.status(200).send({
-            message: 'error',
-            error: "caterer id [".concat(catererId, "] is not valid.")
-          });
-        } else {
-          var addedOrder = ordersService.add(milID, custID, catID, Date.now());
-          res.status(200).send({
-            message: 'success',
-            body: addedOrder
-          });
-        }
-      } else if (!mealId && !customerId && !catererId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No mealId, customerId and catererId was sent'
+      if (!validReqData.error) {
+        var addedOrder = ordersService.add(mealId, customerId, catererId, Date.now());
+        res.status(201).send({
+          message: 'success',
+          order: addedOrder
         });
-      } else if (!mealId) {
-        res.status(200).send({
+      } else {
+        res.status(404).send({
           message: 'error',
-          error: 'No mealId was sent!'
-        });
-      } else if (!customerId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No customerId was sent!'
-        });
-      } else if (!catererId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No catererId was sent!'
+          error: validReqData.invalid
         });
       }
     }
@@ -87,45 +53,29 @@ function () {
     key: "modifyOrder",
     value: function modifyOrder(req, res) {
       var mealID = req.body.mealId;
-      var orderID = parseInt(req.params.id, 10);
+      var orderId = req.params.id;
+      var ordersValidation = new _OrdersValidation.default();
+      var validReqData = ordersValidation.validateModifyOrder(mealID, orderId);
 
-      var orderIdNum = _allHelpers.default.validID(orderID);
+      if (!validReqData.error) {
+        var orderIdExist = ordersService.orderIdExist(parseInt(orderId, 10));
 
-      if (orderIdNum) {
-        if (mealID) {
-          var milId = parseInt(mealID, 10);
-
-          if (!_allHelpers.default.validID(milId)) {
-            res.status(200).send({
-              message: 'error',
-              error: 'invalid meal id'
-            });
-          } else {
-            var orderIdExist = ordersService.orderIdExist(orderID);
-
-            if (orderIdExist.exist) {
-              var modifiedOrder = ordersService.modify(orderIdExist.index, milId);
-              res.status(200).send({
-                message: 'success',
-                body: modifiedOrder
-              });
-            } else {
-              res.status(200).send({
-                message: 'error',
-                error: "No order with the id [".concat(orderID, "]")
-              });
-            }
-          }
+        if (orderIdExist.exist) {
+          var modifiedOrder = ordersService.modify(orderIdExist.index, mealID);
+          res.status(201).send({
+            message: 'success',
+            order: modifiedOrder
+          });
         } else {
-          res.status(200).send({
+          res.status(404).send({
             message: 'error',
-            error: 'no meal id was sent.'
+            error: "No order with the id [".concat(orderId, "]")
           });
         }
       } else {
-        res.status(200).send({
+        res.status(404).send({
           message: 'error',
-          error: 'Invalid Order id.'
+          error: validReqData.invalid
         });
       }
     }
@@ -136,14 +86,15 @@ function () {
 
       if (totalOrders < 1) {
         res.status(200).send({
-          message: 'error',
-          error: 'No orders available.'
+          message: 'success',
+          error: 'No orders available. You can make one with the field below.',
+          fields: 'mealId'
         });
       } else {
         var allOrders = ordersService.getAllOrders();
         res.status(200).send({
           message: 'success',
-          body: allOrders
+          orders: allOrders
         });
       }
     }

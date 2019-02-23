@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _MenuService = _interopRequireDefault(require("../services/MenuService"));
 
-var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
+var _MenuValidation = _interopRequireDefault(require("../validation/MenuValidation"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,44 +32,19 @@ function () {
       var _req$body = req.body,
           mealId = _req$body.mealId,
           catererId = _req$body.catererId;
+      var mealNum = mealId;
+      var menuValidation = new _MenuValidation.default();
+      var validReqData = menuValidation.validateAddMenu(mealNum, catererId);
 
-      if (mealId && catererId) {
-        var mealNum = mealId;
-        var catID = parseInt(catererId, 10);
-
-        var validMealId = _allHelpers.default.menuOptionValid(mealNum);
-
-        if (validMealId.message === 'error') {
-          res.status(200).send({
-            message: 'error',
-            error: "meal id [".concat(validMealId.error, "] is not valid.")
-          });
-        } else if (!_allHelpers.default.validID(catID)) {
-          res.status(200).send({
-            message: 'error',
-            error: "caterer id [".concat(catererId, "] is not valid.")
-          });
-        } else {
-          var addedMenu = menuService.add(mealNum, catID, Date.now());
-          res.status(200).send({
-            message: 'success',
-            body: addedMenu
-          });
-        }
-      } else if (!mealId && !catererId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No meal id(s) (mealId) and caterer id (catererId) was sent'
+      if (!validReqData.error) {
+        var addedMenu = menuService.add(mealId, catererId, Date.now());
+        res.status(201).send({
+          menu: addedMenu
         });
-      } else if (!mealId) {
-        res.status(200).send({
+      } else {
+        res.status(404).send({
           message: 'error',
-          error: 'No meal id(s) (mealId) was sent!'
-        });
-      } else if (!catererId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No caterer id (catererId) was sent!'
+          error: validReqData.invalid
         });
       }
     }
@@ -81,12 +56,12 @@ function () {
       if (!menuExist) {
         res.status(200).send({
           message: 'success',
-          body: 'No Menu. Set up a Menu now.'
+          body: 'No Menu in your account. Set up a Menu now with the following fields below.',
+          fields: ' mealId(s) (one or meal id with the same key name [ mealId ]), and catererId (only one!)'
         });
       } else {
         res.status(200).send({
-          message: 'success',
-          body: menuService.get()
+          menus: menuService.get()
         });
       }
     }
