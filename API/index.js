@@ -30,7 +30,7 @@ app.get('/', (req, res) => res.status(200).send(
         + '<li><p>GET /api/v1/menu</p></li>'
         + '<li><p>POST /api/v1/orders</p><span>With the following keys: '
         + '<b>mealId (integer), customerId (integer), catererId (integer)</b></span></li>'
-        + '<li><p>PUT /api/v1/orders</p><span>With the following keys: '
+        + '<li><p>PUT /api/v1/orders/id</p><span>With the following keys: '
         + '<b>mealId (integer)</b></span></li>'
         + '<li><p>GET /api/v1/orders</p></li>'
       + '</ul>'
