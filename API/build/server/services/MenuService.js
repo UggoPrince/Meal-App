@@ -70,13 +70,13 @@ function () {
         for (var _i = 0; _i < menus.length; _i += 1) {
           if (menus[_i].caterer_id === catererID) {
             var _m = {
-              id: id,
+              id: menus[_i].id,
               meals: meals,
               caterer_id: catererID,
               created_at: date
             };
             this.menu[_i] = _m;
-            return this.getAllMenus()[id - 1];
+            return this.menu[_i];
           }
         }
 
@@ -96,6 +96,5 @@ function () {
   return MenuService;
 }();
 
-var _default = MenuService;
-exports.default = _default;
+exports.default = MenuService;
 //# sourceMappingURL=MenuService.js.map

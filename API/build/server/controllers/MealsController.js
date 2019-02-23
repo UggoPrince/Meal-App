@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _MealsService = _interopRequireDefault(require("../services/MealsService"));
 
-var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
+var _MealsValidation = _interopRequireDefault(require("../validation/MealsValidation"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,90 +39,74 @@ function () {
           size = _req$body.size,
           price = _req$body.price,
           currency = _req$body.currency,
-          caterer = _req$body.caterer;
+          catererId = _req$body.catererId;
+      var mealsValid = new _MealsValidation.default();
+      var validReqData = mealsValid.validateAddMeal(name, size, price, currency, catererId);
 
-      if (!name && !size && !price && !currency && !caterer) {
-        res.status(200).send({
+      if (validReqData.error) {
+        res.status(404).send({
           message: 'error',
-          error: 'No meal was sent.'
-        });
-      } else if (!name) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No meal (name) was sent.'
-        });
-      } else if (!size) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No meal (size) was sent.'
-        });
-      } else if (!price) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No meal (price) was sent.'
-        });
-      } else if (!currency) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No meal (currency) was sent.'
-        });
-      } else if (!caterer) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No catererId (caterer) was sent.'
+          error: validReqData.invalid
         });
       } else {
-        var addedMeal = mealsService.add(name, size, price, currency, caterer);
-        res.status(200).send({
+        var addedMeal = mealsService.add(name, size, price, currency, catererId);
+        res.status(201).send({
           message: 'success',
-          body: addedMeal
+          meal: addedMeal
         });
       }
     }
   }, {
     key: "modifyMeal",
     value: function modifyMeal(req, res) {
-      var mealId = parseInt(req.params.id, 10);
+      var mealId = req.params.id;
       var mealName = req.body.name;
       var mealPrice = req.body.price;
-      var mealExist = mealsService.mealExist(mealId);
+      var mealExist = mealsService.mealExist(parseInt(mealId, 10));
+      var mealsValid = new _MealsValidation.default();
+      var validReqData = mealsValid.validateModifyMeal(mealId, mealName, mealPrice);
 
-      if (_allHelpers.default.validID(mealId) && mealExist.true) {
-        if (!_allHelpers.default.canModifyMeal(mealName, mealPrice)) {
-          res.status(200).send({
-            message: 'error',
-            error: 'No data for the name and/or price update of meal was submitted'
-          });
-        } else {
-          var modifiedMeal = mealsService.modify(mealExist.index, mealName, mealPrice);
-          res.status(200).send({
-            message: 'success',
-            body: modifiedMeal
-          });
-        }
-      } else {
-        res.status(200).send({
+      if (validReqData.error) {
+        res.status(404).send({
           message: 'error',
-          error: 'invalid ID'
+          error: validReqData.invalid
+        });
+      } else if (mealExist.exist === false) {
+        res.status(404).send({
+          message: 'error',
+          error: "No meal with mealId: ".concat(mealId, ".")
+        });
+      } else {
+        var modifiedMeal = mealsService.modify(mealExist.index, mealName, mealPrice);
+        res.status(201).send({
+          message: 'success',
+          body: modifiedMeal
         });
       }
     }
   }, {
     key: "deleteMeal",
     value: function deleteMeal(req, res) {
-      var mealId = parseInt(req.params.id, 10);
-      var mealExist = mealsService.mealExist(mealId);
+      var mealId = req.params.id;
+      var mealExist = mealsService.mealExist(parseInt(mealId, 10));
+      var mealsValid = new _MealsValidation.default();
+      var validReqData = mealsValid.validateDeleteMeal(mealId);
 
-      if (_allHelpers.default.validID(mealId) && mealExist.true) {
+      if (validReqData.error) {
+        res.status(404).send({
+          message: 'error',
+          error: validReqData.invalid
+        });
+      } else if (mealExist.exist === false) {
+        res.status(404).send({
+          message: 'error',
+          error: "No meal with mealId: ".concat(mealId, ".")
+        });
+      } else {
         var deletedMeal = mealsService.delete(mealExist.index);
         res.status(200).send({
           message: 'success',
           body: deletedMeal
-        });
-      } else {
-        res.status(200).send({
-          message: 'error',
-          error: 'invalid ID'
         });
       }
     }

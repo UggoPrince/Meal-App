@@ -3,7 +3,7 @@
 
 import Menu from '../models/Menu';
 
-class MenuService {
+export default class MenuService {
   constructor() {
     this.menu = [];
   }
@@ -46,13 +46,13 @@ class MenuService {
       for (let i = 0; i < menus.length; i += 1) {
         if (menus[i].caterer_id === catererID) {
           const m = {
-            id,
+            id: menus[i].id,
             meals,
             caterer_id: catererID,
             created_at: date,
           };
           this.menu[i] = m;
-          return this.getAllMenus()[id - 1];
+          return this.menu[i];
         }
       }
       const m = {
@@ -66,5 +66,3 @@ class MenuService {
     return this.getAllMenus()[id - 1]; // -1 because it's an array
   }
 }
-
-export default MenuService;

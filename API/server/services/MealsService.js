@@ -2,35 +2,11 @@
 /* eslint-disable no-console */
 
 import Meals from '../models/Meals';
+import mealData from '../database/mealsData';
 
-class MealService {
+export default class MealService {
   constructor() {
-    this.meals = [
-      {
-        id: 1,
-        name: 'Jollof Rice',
-        size: 'plates',
-        price: '500',
-        currency: 'NGN',
-        caterer_id: '1',
-      },
-      {
-        id: 2,
-        name: 'Bread and Beans',
-        size: 'plates',
-        price: '600',
-        currency: 'NGN',
-        caterer_id: '1',
-      },
-      {
-        id: 3,
-        name: 'Dodo and Beans',
-        size: 'plates',
-        price: '500',
-        currency: 'NGN',
-        caterer_id: '12',
-      },
-    ];
+    this.meals = mealData;
   }
 
   getAllMeals() {
@@ -64,9 +40,9 @@ class MealService {
 
   mealExist(id) {
     for (let i = 0; i < this.meals.length; i += 1) {
-      if (this.meals[i].id === id) return { true: true, index: i };
+      if (this.meals[i].id === id) return { exist: true, index: i };
     }
-    return { true: false, index: -1 };
+    return { exist: false, index: -1 };
   }
 
   maxId() {
@@ -105,5 +81,3 @@ class MealService {
     return deletedMeal[0];
   }
 }
-
-export default MealService;

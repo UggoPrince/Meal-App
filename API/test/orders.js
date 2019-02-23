@@ -17,7 +17,7 @@ describe('Orders Test', () => {
           mealId: 3,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.body).to.be.an('Object');
           done();
         });
@@ -42,8 +42,15 @@ describe('Orders Test', () => {
         .post('/api/v1/orders')
         .send()
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'No mealId, customerId and catererId was sent' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: {
+              catererId: 'Invalid catererId.',
+              customerId: 'Invalid customerId.',
+              mealId: 'Invalid mealId.',
+            },
+          });
           done();
         });
     });
@@ -55,8 +62,13 @@ describe('Orders Test', () => {
           catererId: 6,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'No mealId was sent!' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: {
+              mealId: 'Invalid mealId.',
+            },
+          });
         });
       chai.request(app)
         .post('/api/v1/orders')
@@ -65,8 +77,13 @@ describe('Orders Test', () => {
           catererId: 6,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'No customerId was sent!' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: {
+              customerId: 'Invalid customerId.',
+            },
+          });
         });
       chai.request(app)
         .post('/api/v1/orders')
@@ -75,8 +92,13 @@ describe('Orders Test', () => {
           customerId: 3,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'No catererId was sent!' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: {
+              catererId: 'Invalid catererId.',
+            },
+          });
         });
       done();
     });
@@ -89,8 +111,13 @@ describe('Orders Test', () => {
           catererId: 6,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'meal id [p] is not valid.' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: {
+              mealId: 'Invalid mealId.',
+            },
+          });
         });
       chai.request(app)
         .post('/api/v1/orders')
@@ -100,8 +127,13 @@ describe('Orders Test', () => {
           catererId: 6,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'customer id [-1] is not valid.' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: {
+              customerId: 'Invalid customerId.',
+            },
+          });
         });
       chai.request(app)
         .post('/api/v1/orders')
@@ -111,8 +143,13 @@ describe('Orders Test', () => {
           catererId: 'l',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'caterer id [l] is not valid.' });
+          expect(res.status).to.be.eql(404);
+          expect(res.body).to.be.eql({
+            message: 'error',
+            error: {
+              catererId: 'Invalid catererId.',
+            },
+          });
         });
       done();
     });
@@ -125,7 +162,7 @@ describe('Orders Test', () => {
           catererId: 6,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.body).to.be.an('Object');
           done();
         });
@@ -139,7 +176,7 @@ describe('Orders Test', () => {
         .put('/api/v1/orders/p')
         .send()
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.body).to.be.an('Object');
           done();
         });
@@ -149,14 +186,14 @@ describe('Orders Test', () => {
         .put('/api/v1/orders/2')
         .send()
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.body).to.be.an('Object');
         });
       chai.request(app)
         .put('/api/v1/orders/2')
         .send({ mealId: '' })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.body).to.be.an('Object');
         });
       done();
@@ -166,7 +203,7 @@ describe('Orders Test', () => {
         .put('/api/v1/orders/2')
         .send({ mealId: '-1' })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.body).to.be.an('Object');
           done();
         });
@@ -176,7 +213,7 @@ describe('Orders Test', () => {
         .put('/api/v1/orders/2')
         .send({ mealId: 5 })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.body).to.be.an('Object');
           expect(res.body).to.be.eql({ message: 'error', error: 'No order with the id [2]' });
           done();
@@ -187,7 +224,7 @@ describe('Orders Test', () => {
         .put('/api/v1/orders/1')
         .send({ mealId: 5 })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.body).to.be.an('Object');
           done();
         });
