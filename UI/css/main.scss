@@ -27,7 +27,7 @@ html{
 html, body{
     height: 100%;
     min-height:100%;
-    font-family: Georgia;
+    font-family: 'Amaranth';
 }
 
 *, *:before, *:after{
@@ -46,6 +46,7 @@ body{
   }
   
 aside{ flex-basis: 100%; }
+.sidebar{min-height: 10px;}
 .row{ flex-direction: row; }
 .row-full{ display: flex; flex-direction: row; }
 
@@ -56,6 +57,8 @@ aside{ flex-basis: 100%; }
 .flex1{flex: 1;}
 .flex2{flex: 2;}
 .flex3{flex: 3;}
+
+.brand{font-family: 'Fredericka the Great';}
 
 .cards{
     display: flex;
@@ -79,11 +82,18 @@ aside{ flex-basis: 100%; }
             font-size: 14px;
         }
         button{
-            padding: 3px;
+            padding: 5px 10px;
+            border: 1px solid #CCC;
+            // background-color: #2581DC;
+            background-color: tomato;
+            cursor: pointer;
+            color: white;
+            border-radius: 3px;
             &:hover, :active{
+                // background-color: tomato;
                 background-color: #2581DC;
                 color: white;
-                border: 2px solid #ccc;
+                border: 1px solid #ccc;
             }
         }
     }
@@ -95,7 +105,7 @@ aside{ flex-basis: 100%; }
 
 .mini-menu{
     border-radius: 5px;
-    box-shadow: 0px 0px 3px 0px #CCC;
+    box-shadow: 0px 0px 5px 0px #CCC;
     margin-bottom: 20px;
 }
 
@@ -113,14 +123,52 @@ aside{ flex-basis: 100%; }
     }
 }
 
+.mini-order{
+    border: 1px solid #aaa;
+    min-height: 300px;
+    a{
+        cursor: pointer;
+        text-decoration: none;
+        span{
+            border-radius: 5px;
+            display: none;
+        }
+    }
+}
+
+#orderBox{
+    min-height: 200px;
+}
+
+.divHoldOrder{
+    border: 1px solid #aaa;
+    border-left: 0px;
+    border-right: 0px;
+    margin: 2px 0px;
+    input{
+        width: 50px;
+    }
+}
+
+/* .orderButton{
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 3px;
+    &:hover{
+        border: 1px solid;
+    }
+} */
+
 .box-shadow{
     box-shadow: 0px 0px 3px 0px #CCC;
 }
 
 .block{ display: block; }
-
+.font-amaranth{font-family: 'Amaranth';}
+.font-unna{font-family: 'Unna';}
 .full-width{ width: $myWidth; }
 .w-70{ width: 70%; }
+.w-90{ width: 90%; }
 .mw-30em{ max-width: 30em; }
 .mw-40em{ max-width: 40em; }
 .mw-50em{ max-width: 50em; }
@@ -128,10 +176,14 @@ aside{ flex-basis: 100%; }
 .mw-60em{ max-width: 60em; }
 .mw-80{max-width: 80em;}
 .min-height-50{ min-height: 50%; }
+.mh100{min-height: 100px;}
 
+.mt-0px{ margin-top: 0px; }
+.mb-0px{ margin-top: 0px; }
 .mt-10px{ margin-top: 10px; }
 .mb-10px{ margin-bottom: 10px; }
 .mt-20px{ margin-top: 20px; }
+.mb-20px{ margin-bottom: 20px; }
 .mt-30px{ margin-top: 30px; }
 .mb-30px{ margin-bottom: 30px; }
 .mt-70px{ margin-top: 70px; }
@@ -142,12 +194,23 @@ aside{ flex-basis: 100%; }
 .mt-50{margin-top: 50%;}
 .mt-100{margin-top:100%;}
 .mlr-auto{margin-left: auto; margin-right: auto;}
+.tdn{a{text-decoration: none;}}
 
 .pd1{padding: 10px;}
+.pd3{padding: 30px;}
+.pd5{padding: 50px;}
+.pd10{padding: 100px;}
 .pd-l1{padding-left: 10px;}
 .pdt-100{padding-top: 100px;}
+.pdt-20px{padding-top: 20px;}
+.pdl-20px{padding-left: 20px;}
+.pdr-20px{padding-right: 20px;}
+.pdb-20px{padding-bottom: 20px;}
+.pdt-30px{padding-top: 30px;}
+.pdb-30px{padding-bottom: 30px;}
 .pdb-50px{padding-bottom: 50px;}
 .pdb-70px{padding-bottom: 70px;}
+.br5{border-radius: 5px;}
 
 .ff-georgia{font-family: Georgia;}
 .ff-verdana{font-family: Verdana;}
@@ -163,9 +226,11 @@ aside{ flex-basis: 100%; }
 .bg-tomato{background-color: tomato;}
 .bg-blue{background-color: #2581DC;}
 .bg-white{background-color: white;}
+.bg-black{background-color: #555;}
 .bg-img1{background: $bg-img1; background-origin: border-box; background-position: center; background-size: cover;}
 .bg-smoke{background: url(../images/smoke2.png);}
 .color-blu{color: #2581DC;}
+.color-white{color: white;}
 .color-white2{color: #EEE}
 .hover-blue{
     &:hover{
@@ -223,6 +288,13 @@ aside{ flex-basis: 100%; }
     }
 }
 
+.thankYouButton{
+    border: 1px solid;
+    cursor: pointer;
+    &:hover{
+        border-color: #2581DC;
+    }
+}
 .va-t{ vertical-align: text-top; }
 
 .header-section{
@@ -340,6 +412,10 @@ nav {
     background: $nav-background;
     height: $nav-height;
     width: $nav-height;
+}
+
+@media only screen and (max-width: 900px){
+    .sidebar{display: none;}
 }
 
 @media only screen and (max-width: $breakpoint) {
