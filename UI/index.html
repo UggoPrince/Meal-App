@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Book-A-Meal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/googlefonts.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
     <script src="js/main.js"></script>
 </head>
@@ -28,7 +29,7 @@
                             <a id="signupLink">Signup</a>
                             </li>
                             <li>
-                            <a href="indexCaterer.html">Caterer</a>
+                            <a href="indexCaterer.html">Be A Caterer</a>
                             </li>
                         </ul>
                     </nav>
@@ -50,16 +51,16 @@
     <main class="full-width bg-img1">
         <section class="section column">
             <section class="section ta-center mlr-auto ff-verdana">
-                <h1 class="mt-70px mb-70px fs-30">Some Latest Menus Around You</h1>
+                <h1 class="mt-70px mb-70px fs-30  font-amaranth">Some Latest Menus Around You</h1>
             </section>
-            <section class="section column mini-menu mlr-auto">
+            <section class="section column mini-menu mlr-auto bg-white">
                 <section class="section row full-width mw-60em mlr-auto mini-menu-desc">
                     <img src="images/caterer1.png">
                     <article class="section column pd1 flex1">
                         <div class="flex1">Royal Chefs</div>
                         <div class="flex1">No 7 Dolphine Estate, Ikoyi, Lagos.</div>
                         <div class="flex1">07012345678</div>
-                        <div><a href="#">View Menu</a></div>
+                        <div><a href="">View Menu</a></div>
                     </article>
                 </section>
                 <section class="cards full-width mw-60em mlr-auto">
@@ -68,7 +69,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -76,7 +77,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -84,7 +85,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -92,19 +93,19 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                 </section>
             </section>
-            <section class="section column mini-menu mlr-auto">
+            <section class="section column mini-menu mlr-auto bg-white">
                 <section class="section row full-width mw-60em mlr-auto mini-menu-desc">
                     <img src="images/caterer2.jpg">
                     <article class="section column pd1 flex1">
                         <div class="flex1">Tasty Kitchen</div>
                         <div class="flex1">No 7 Orimeji, Ikeja, Lagos.</div>
                         <div class="flex1">07012345678</div>
-                        <div><a href="#">View Menu</a></div>
+                        <div><a href="">View Menu</a></div>
                     </article>
                 </section>
                 <section class="cards full-width mw-60em mlr-auto">
@@ -113,7 +114,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -121,7 +122,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -129,7 +130,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -137,7 +138,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton">Order</button>
                         </div>
                     </article>
                 </section>
@@ -155,9 +156,9 @@
                 <article class="column flex1 arttext">
                     <h1>Home</h1>
                     <hr>
-                    <p><a href="#">Login</a></p>
-                    <p><a href="#">Signup</a></p>
-                    <p><a href="#">Caterer</a></p>
+                    <p><a href="" id="loginLink">Login</a></p>
+                    <p><a href="">Signup</a></p>
+                    <p><a href="">Caterer</a></p>
                 </article>
                 <article class="column flex1 arttext">
                     <h1>Contact Us</h1>
@@ -170,7 +171,7 @@
     </footer>
 
 <!-- Login Modal https://www.w3schools.com/howto/howto_css_modals.asp-->
-<div id="loginModal" class="section row modal">
+<div id="loginModal" class="section row modal font-amaranth">
 
     <!-- Modal content -->
     <form method="POST" class="modal-content section column" id="loginForm">

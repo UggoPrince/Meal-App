@@ -14,9 +14,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   let signupModal = document.getElementById('signupModal');
   let closeSignup = document.getElementsByClassName('closeSignup')[0];
 
-  if(pageName === 'index.html' || pageName === 'indexCaterer.html'){
+  if(pageName === '' || pageName === 'index.html' || pageName === 'indexCaterer.html'){
     loginLink.onclick = ()=>{
       loginModal.style.display = 'block';
+      loginModal.style.fontFamily = 'Amaranth';
     };
     closeLogin.onclick = () =>{
       loginModal.style.display = 'none';
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
 
-  if(pageName === 'index.html'){
+  if(pageName === '' || pageName === 'index.html'){
     let loginForm = document.getElementById('loginForm');
       loginForm.addEventListener('submit', (event)=>{
       let l = new LoginForm();
@@ -95,9 +96,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
         });
       }
     }
+    if(pageName === 'home.html'){
+      initOrderButtons();
+    }
   }
 
-  if(localStorage.getItem('user') && pageName !== 'index.html' && pageName !== 'indexCaterer.html'){
+  if(localStorage.getItem('user') && pageName !== 'index.html' && pageName !== 'indexCaterer.html' && pageName !== ''){
     userTitle.innerHTML = JSON.parse(localStorage.getItem('user')).name;
   }
 
@@ -116,6 +120,69 @@ function slideToggle() {
         navList.style.display = 'block';
     }
 }
+
+function initOrderButtons(){
+  const buttons = document.getElementsByClassName('orderButton');
+  for (let i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener('click', (e)=>{
+      //alert(e.target.dataset.order);
+      showOrders(e.target);
+    }); 
+  }
+}
+
+function showOrders(order){
+  document.getElementById('checkoutButton').style.display = 'block';
+  let div = document.getElementById('orderBox');
+  let namediv = document.createElement('div');
+  let pricediv = document.createElement('div');
+  let catererdiv = document.createElement('div');
+  let num = document.createElement('input');
+  num.setAttribute('type', 'number');
+  num.setAttribute('value', '1');
+  num.setAttribute('min', '1');
+  let divHoldOrder = document.createElement('div');
+  namediv.innerHTML = order.dataset.orderName;
+  pricediv.innerHTML = 'N' + order.dataset.orderPrice;
+  catererdiv.innerHTML = order.dataset.caterer;
+  
+  divHoldOrder.appendChild(catererdiv);
+  divHoldOrder.appendChild(namediv);
+  divHoldOrder.appendChild(pricediv);
+  divHoldOrder.appendChild(num);
+
+  divHoldOrder.className = 'divHoldOrder';
+
+  div.appendChild(divHoldOrder);
+
+  /*if(!localStorage.getItem('orders')){
+    alert('uuu');
+    let i = 1;
+    let orders = {};
+    let ord = {
+      name: order.dataset.orderName,
+      price: order.dataset.orderPrice,
+      caterer: order.dataset.orderCaterer
+    };
+    orders['order'+i] = ord;
+    orders.num = i;
+    localStorage.setItem('orders', JSON.stringify(orders));
+  } else{
+    let orders = JSON.parse(localStorage.getItem('orders'));
+    let ord = {
+      name: order.dataset.orderName,
+      price: order.dataset.orderPrice,
+      caterer: order.dataset.orderCaterer
+    };
+    let l = orders.num;
+    ++l;
+    orders.num = l;
+    orders['order'+l] = ord;
+    localStorage.setItem('orders', JSON.stringify(orders));
+  }*/
+}
+
+localStorage.orders = undefined;
 
 class Form{
   constructor(){

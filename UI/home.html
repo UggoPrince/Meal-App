@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Book-A-Meal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/googlefonts.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
     <script src="js/main.js"></script>
 </head>
 <body>
     <section class="section row">
-        <header class="bottom-line">
+        <header class="bottom-line bg-black">
                 <div>
                     <div class="brand">
                         <a href="home.html" id="userTitle">Book A Meal</a>
@@ -37,11 +38,11 @@
                 </div>
             </header>
     </section>
-    <main class="full-width">
-        <section class="section column">
-            <section class="section column ta-center mlr-auto ff-verdana">
-                <h1 class="mt-70px mb-70px fs-30">Resent Menus</h1>
-                <h3>MY CATERERS</h3>
+    <main class="section full-width">
+        <section class="section column flex3">
+            <section class="section column ta-center mlr-auto">
+                <h1 class="mt-30px mb-10px fs-30 font-unna color-blu">Resent Menus</h1>
+                <h3 class="font-amaranth color-white bg-blue">MY CATERERS</h3>
             </section>
             <section class="section column mini-menu mlr-auto">
                 <section class="section row full-width mw-60em mlr-auto mini-menu-desc">
@@ -50,7 +51,7 @@
                         <div class="flex1">Royal Chefs</div>
                         <div class="flex1">No 7 Dolphine Estate, Ikoyi, Lagos.</div>
                         <div class="flex1">07012345678</div>
-                        <div><a href="#">View Menu</a></div>
+                        <div><a>View Menu</a></div>
                     </article>
                 </section>
                 <section class="cards full-width mw-60em mlr-auto">
@@ -59,7 +60,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton" data-caterer="Royal Chefs" data-order="1" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -67,7 +68,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton" data-caterer="Royal Chefs" data-order="2" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -75,7 +76,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton" data-caterer="Royal Chefs" data-order="3" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -83,7 +84,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton" data-caterer="Royal Chefs" data-order="4" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                 </section>
@@ -95,7 +96,7 @@
                         <div class="flex1">Tasty Kitchen</div>
                         <div class="flex1">No 7 Orimeji, Ikeja, Lagos.</div>
                         <div class="flex1">07012345678</div>
-                        <div><a href="#">View Menu</a></div>
+                        <div><a>View Menu</a></div>
                     </article>
                 </section>
                 <section class="cards full-width mw-60em mlr-auto">
@@ -104,7 +105,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton"  data-caterer="Tasty Kitchen" data-order="1" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -112,7 +113,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton" data-caterer="Tasty Kitchen" data-order="2" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -120,7 +121,7 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton" data-caterer="Tasty Kitchen" data-order="3" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                     <article class="card">
@@ -128,11 +129,24 @@
                         <div class="text">
                             <span>Beef and Rice</span>
                             <p>N 500</p>
-                            <button>Order</button>
+                            <button class="orderButton" data-caterer="Tasty Kitchen" data-order="4" data-order-name="Beef and Rice" data-order-price='500'>Order</button>
                         </div>
                     </article>
                 </section>
             </section>
+        </section>
+        <section class="section column flex1 sidebar font-amaranth">
+            <div class="section mini-order w-90 column">
+                <h1 class="ta-center full-width bg-blue pdt-20px pdb-20px mt-0px mb-0px color-white row">MY ORDERS</h1>
+                <div class="row ta-center" id="orderBox">
+                    Make an order.
+                </div>
+                <div class="row ta-center mt-20px mb-20px">
+                    <a class="bg-tomato color-white w-90" href="order.html">
+                        <span class="block bg-tomato w-90 mlr-auto pdt-20px pdb-20px" id="checkoutButton">CHECKOUT</span>
+                    </a>
+                </div>
+            </div>
         </section>
     </main>
     <footer class="section">
@@ -146,9 +160,10 @@
                 <article class="column flex1 arttext">
                     <h1>Home</h1>
                     <hr>
-                    <p><a href="#">Login</a></p>
-                    <p><a href="#">Signup</a></p>
-                    <p><a href="#">Caterer</a></p>
+                    <p><a href="">Home</a></p>
+                    <p><a href="">Caterers</a></p>
+                    <p><a href="">Settings</a></p>
+                    <p><a href="">Logout</a></p>
                 </article>
                 <article class="column flex1 arttext">
                     <h1>Contact Us</h1>
