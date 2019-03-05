@@ -29,7 +29,7 @@ function () {
   function Sequelizer() {
     _classCallCheck(this, Sequelizer);
 
-    this.sequel = new _sequelize.default(process.env.DATABASE_URL, {
+    this.sequel = new _sequelize.default(process.env.DATABASE_URL + process.env.DATABASE, {
       host: 'localhost',
       dialect: 'postgres',
       operatorsAliases: false
