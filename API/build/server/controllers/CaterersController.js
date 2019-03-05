@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+require("babel-polyfill");
+
 var _CaterersService = _interopRequireDefault(require("../services/CaterersService"));
 
 var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));

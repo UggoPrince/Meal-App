@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-console */
-
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'babel-polyfill';
 import dotenv from 'dotenv';
 import Sequelize from 'sequelize';
 

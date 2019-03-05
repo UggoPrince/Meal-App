@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable class-methods-use-this */
-
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'babel-polyfill';
 import customersService from '../services/CustomersService';
 import getErrorMessage from '../helpers/allHelpers';
 

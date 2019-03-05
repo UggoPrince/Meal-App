@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'babel-polyfill';
 import { menu } from '../models/index';
 import mealsService from './MealsService';
 

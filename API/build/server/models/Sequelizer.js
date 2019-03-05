@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.dataType = exports.sequelize = exports.seq = void 0;
 
+require("babel-polyfill");
+
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
 var _sequelize = _interopRequireDefault(require("sequelize"));
