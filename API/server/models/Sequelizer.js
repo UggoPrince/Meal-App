@@ -9,10 +9,10 @@ dotenv.config();
 class Sequelizer {
   constructor() {
     this.sequel = new Sequelize(
-      'dfietbbbsu1pub',
-      'lcgmatquxeupai',
-      '586b19a0984f0fcaa10f440433cac7e7ad33cb66e5283a8e4815085d1c6dedea', {
-        host: 'ec2-174-129-236-21.compute-1.amazonaws.com',
+      process.env.DATABASE,
+      process.env.DATABASE_USER,
+      process.env.DATABASE_PASSWORD, {
+        host: 'localhost',
         dialect: 'postgres',
         operatorsAliases: false,
       },
