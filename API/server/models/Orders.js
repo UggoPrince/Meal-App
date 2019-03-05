@@ -1,12 +1,24 @@
 /* eslint-disable linebreak-style */
-/* eslint-disable no-console */
+import { sequelize, dataType } from './Sequelizer';
 
-export default class Orders {
+class Orders {
   constructor() {
-    this.id = null;
-    this.meal_id = null;
-    this.customer_id = null;
-    this.caterer_id = null;
-    this.created_at = null;
+    this.order = sequelize.define('orders', {
+      id: {
+        type: dataType.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+    });
+  }
+
+  getOrder() {
+    return this.order;
+  }
+
+  association(model) {
+    this.order.belongsTo(model, { foreignKey: { allowNull: false } });
   }
 }
+
+export default new Orders();

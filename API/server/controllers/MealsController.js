@@ -1,62 +1,55 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 
-import MealsService from '../services/MealsService';
-import MealsValidation from '../validation/MealsValidation';
-
-const mealsService = new MealsService();
+import mealsService from '../services/MealsService';
+import getErrorMessage from '../helpers/allHelpers';
 
 class MealsController {
-  getMeals(req, res) {
-    res.status(200).send(mealsService.getAll());
-  }
-
-  addMeal(req, res) {
-    const {
-      name, size, price, currency, catererId,
-    } = req.body;
-    const mealsValid = new MealsValidation();
-    const validReqData = mealsValid.validateAddMeal(name, size, price, currency, catererId);
-    if (validReqData.error) {
-      res.status(404).send({ message: 'error', error: validReqData.invalid });
+  async getMeals(req, res) {
+    const meals = await mealsService.getAllMeals();
+    /* if (meals.errors) {
+      res.status(400).send(meals.errors);
+    } */
+    if (meals.count === 0) {
+      res.status(200).send(['No meals yets. Add a meal.']);
     } else {
-      const addedMeal = mealsService.add(name, size, price, currency, catererId);
-      res.status(201).send({ message: 'success', meal: addedMeal });
+      res.status(200).send(meals);
     }
   }
 
-  modifyMeal(req, res) {
-    const mealId = req.params.id;
-    const mealName = req.body.name;
-    const mealPrice = req.body.price;
-    const mealExist = mealsService.mealExist(parseInt(mealId, 10));
-    const mealsValid = new MealsValidation();
-    const validReqData = mealsValid.validateModifyMeal(mealId, mealName, mealPrice);
-
-    if (validReqData.error) {
-      res.status(404).send({ message: 'error', error: validReqData.invalid });
-    } else if (mealExist.exist === false) {
-      res.status(404).send({ message: 'error', error: `No meal with mealId: ${mealId}.` });
+  async addMeal(req, res) {
+    const addedMeal = await mealsService.add(req.body);
+    if (addedMeal.errors) {
+      const err = getErrorMessage(addedMeal.errors);
+      res.status(400).send(err);
+    } else if (addedMeal.name === 'SequelizeForeignKeyConstraintError') {
+      res.status(400).send([addedMeal.original.detail]);
     } else {
-      const modifiedMeal = mealsService.modify(mealExist.index, mealName, mealPrice);
-      res.status(201).send({ message: 'success', body: modifiedMeal });
+      res.status(201).send(addedMeal);
     }
   }
 
-  deleteMeal(req, res) {
+  async modifyMeal(req, res) {
     const mealId = req.params.id;
-    const mealExist = mealsService.mealExist(parseInt(mealId, 10));
-    const mealsValid = new MealsValidation();
-    const validReqData = mealsValid.validateDeleteMeal(mealId);
-
-    if (validReqData.error) {
-      res.status(404).send({ message: 'error', error: validReqData.invalid });
-    } else if (mealExist.exist === false) {
-      res.status(404).send({ message: 'error', error: `No meal with mealId: ${mealId}.` });
+    const modMeal = await mealsService.modify(req.body, mealId);
+    if (modMeal[0] === 0 || modMeal.name === 'SequelizeDatabaseError') {
+      res.status(404).send(['Invalid meal id.']);
+    } else if (modMeal.errors) {
+      const err = getErrorMessage(modMeal.errors);
+      res.status(400).send(err);
     } else {
-      const deletedMeal = mealsService.delete(mealExist.index);
-      res.status(200).send({ message: 'success', body: deletedMeal });
+      res.status(200).send(modMeal);
+    }
+  }
+
+  async deleteMeal(req, res) {
+    const mealId = req.params.id;
+    const delMeal = await mealsService.delete(mealId);
+
+    if (delMeal.name === 'SequelizeDatabaseError' || delMeal === 0) {
+      res.status(404).send(['Invalid meal id.']);
+    } else {
+      res.status(200).send(['Meal successfully deleted.']);
     }
   }
 }

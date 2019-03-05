@@ -1,11 +1,31 @@
 /* eslint-disable linebreak-style */
-/* eslint-disable no-console */
+import { sequelize, dataType } from './Sequelizer';
 
-export default class Menu {
+class Menu {
   constructor() {
-    this.id = null;
-    this.meals = null;
-    this.caterer_id = null;
-    this.created_at = null;
+    this.menu = sequelize.define('menu', {
+      id: {
+        type: dataType.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      mealId: {
+        type: dataType.ARRAY(dataType.INTEGER),
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: 'At least on meal id should be provided,' },
+        },
+      },
+    });
+  }
+
+  getMenu() {
+    return this.menu;
+  }
+
+  associationWithCaterer(model) {
+    this.menu.belongsTo(model, { foreignKey: { allowNull: false } });
   }
 }
+
+export default new Menu();

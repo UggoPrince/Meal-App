@@ -5,19 +5,58 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _Sequelizer = require("./Sequelizer");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/* eslint-disable linebreak-style */
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-/* eslint-disable no-console */
-var Menu = function Menu() {
-  _classCallCheck(this, Menu);
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-  this.id = null;
-  this.meals = null;
-  this.caterer_id = null;
-  this.created_at = null;
-};
+var Menu =
+/*#__PURE__*/
+function () {
+  function Menu() {
+    _classCallCheck(this, Menu);
 
-exports.default = Menu;
+    this.menu = _Sequelizer.sequelize.define('menu', {
+      id: {
+        type: _Sequelizer.dataType.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      mealId: {
+        type: _Sequelizer.dataType.ARRAY(_Sequelizer.dataType.INTEGER),
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'At least on meal id should be provided,'
+          }
+        }
+      }
+    });
+  }
+
+  _createClass(Menu, [{
+    key: "getMenu",
+    value: function getMenu() {
+      return this.menu;
+    }
+  }, {
+    key: "associationWithCaterer",
+    value: function associationWithCaterer(model) {
+      this.menu.belongsTo(model, {
+        foreignKey: {
+          allowNull: false
+        }
+      });
+    }
+  }]);
+
+  return Menu;
+}();
+
+var _default = new Menu();
+
+exports.default = _default;
 //# sourceMappingURL=Menu.js.map
