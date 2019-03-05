@@ -94,7 +94,7 @@ describe('Meals Test', () => {
           done();
         });
     });
-    it('should not add a meal when either meal name, size, price, currency and catererId (caterer) is not sent.', (done) => {
+    it('should not add a meal when either meal name, size, price, currency and catererId (caterer) is not sent or is not valid.', (done) => {
       chai.request(app)
         .post('/api/v1/meals')
         .send({
@@ -177,7 +177,7 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/1')
         .send(mealUpdate1)
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('array');
           done();
@@ -188,7 +188,7 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/1')
         .send({ name: mealUpdate1.name })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('array');
           done();
@@ -199,7 +199,7 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/1')
         .send({ price: mealUpdate1.price })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('array');
           done();
@@ -210,7 +210,7 @@ describe('Meals Test', () => {
         .put('/api/v1/meals/1')
         .send({})
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.be.an('array');
           done();
@@ -287,6 +287,33 @@ describe('Meals Test', () => {
           expect(res.body).to.be.eql('Not Found');
           done();
         });
+    });
+    it('should not modify a meal if wrong value types are entered for meal name and/or price.', (done) => {
+      chai.request(app)
+        .put('/api/v1/meals/1')
+        .send(
+          {
+            name: 45,
+            price: 400,
+          },
+        )
+        .end((err, res) => {
+          expect(res.status).to.be.eql(404);
+          expect(res.type).to.be.equal('application/json');
+        });
+      chai.request(app)
+        .put('/api/v1/meals/2')
+        .send(
+          {
+            name: 'beans',
+            price: 'kj',
+          },
+        )
+        .end((err, res) => {
+          expect(res.status).to.be.eql(404);
+          expect(res.type).to.be.equal('application/json');
+        });
+      done();
     });
   });
   describe('DELETE /api/v1/meals/:id', () => {

@@ -180,7 +180,7 @@ describe('Orders Test', () => {
         .put('/api/v1/orders/1')
         .send({ mealId: 5 })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(201);
           expect(res.body).to.be.an('Object');
           done();
         });
