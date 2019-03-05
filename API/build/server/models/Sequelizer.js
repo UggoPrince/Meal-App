@@ -29,8 +29,8 @@ function () {
   function Sequelizer() {
     _classCallCheck(this, Sequelizer);
 
-    this.sequel = new _sequelize.default(process.env.DATABASE_URL + process.env.DATABASE, {
-      host: 'localhost',
+    this.sequel = new _sequelize.default('dfietbbbsu1pub', 'lcgmatquxeupai', '586b19a0984f0fcaa10f440433cac7e7ad33cb66e5283a8e4815085d1c6dedea', {
+      host: 'ec2-174-129-236-21.compute-1.amazonaws.com',
       dialect: 'postgres',
       operatorsAliases: false
     });

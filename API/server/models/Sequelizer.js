@@ -9,7 +9,9 @@ dotenv.config();
 class Sequelizer {
   constructor() {
     this.sequel = new Sequelize(
-      process.env.DATABASE_URL + process.env.DATABASE, {
+      process.env.DATABASE,
+      process.env.DATABASE_USER,
+      process.env.DATABASE_PASSWORD, {
         host: 'localhost',
         dialect: 'postgres',
         operatorsAliases: false,
