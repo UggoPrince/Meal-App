@@ -1,11 +1,7 @@
 /* eslint-disable linebreak-style */
-import sequel from './Sequelizer';
-import Customers from './Customers';
+import { sequelize, dataType } from './Sequelizer';
 
-const sequelize = sequel.sequelizer;
-const dataType = sequel.Sequelize;
-
-class Caterer {
+class Caterers {
   constructor() {
     this.caterer = sequelize.define('caterer', {
       id: {
@@ -15,39 +11,54 @@ class Caterer {
       },
       firstname: {
         type: dataType.STRING,
+        allowNull: false,
         validate: {
-          isNull: false,
-          max: 50,
+          notEmpty: { msg: 'firstname is required.' },
         },
       },
       lastname: {
         type: dataType.STRING,
+        allowNull: false,
         validate: {
-          isNull: false,
-          max: 50,
+          notEmpty: { msg: 'lastname is required.' },
         },
       },
       restaurant: {
         type: dataType.STRING,
+        allowNull: false,
         validate: {
-          isNull: false,
+          notEmpty: { msg: 'restaurant is required.' },
         },
+      },
+      address: {
+        type: dataType.STRING,
+      },
+      phone: {
+        type: dataType.STRING,
       },
       email: {
         type: dataType.STRING,
-        unique: true,
+        unique: { args: true, msg: 'This email is already registered. Login.' },
+        allowNull: false,
         validate: {
-          isNull: false,
-          isEmail: true,
+          isEmail: {
+            args: true,
+            msg: 'Invalid email.',
+          },
         },
       },
       password: {
         type: dataType.STRING,
+        allowNull: false,
         validate: {
-          isNull: false,
-          is: ['^[A-Za-z0-9@_]*$', 'i'],
-          isAlphanumeric: true,
-          min: 8,
+          is: {
+            args: ['^[A-Za-z0-9@_]*$', 'i'],
+            msg: 'Password must be leters, numbers, underscore and/or @ symbol.',
+          },
+          len: {
+            args: [8, 20],
+            msg: 'Password must be between 8 and 20 characters.',
+          },
         },
       },
     });
@@ -57,9 +68,9 @@ class Caterer {
     return this.caterer;
   }
 
-  associationWithCustomer(model) {
-    this.caterer.belongsToMany(model);
+  associationWithCustomer(model, newModel) {
+    this.caterer.belongsToMany(model, { through: newModel });
   }
 }
 
-export default new Caterer();
+export default new Caterers();

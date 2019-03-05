@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint linebreak-style: ["error", "windows"] */
 /* global describe:true, it:true */
-
+import 'babel-polyfill';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../index';
+import app from './app';
 
 chai.use(chaiHttp);
 
@@ -15,7 +15,7 @@ describe('Menu Tests', () => {
         .get('/api/v1/menu')
         .end((err, res) => {
           expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'success', body: 'No Menu. Set up a Menu now.' });
+          expect(res.body).to.be.eql(['No menu available. Add one.']);
           done();
         });
     });
@@ -23,19 +23,43 @@ describe('Menu Tests', () => {
   describe('POST /api/v1/menu', () => {
     const menu = {
       mealId: [1, 2],
-      catererId: 13,
+      catererId: 1,
     };
     const menu2 = {
       mealId: [1, 2],
-      catererId: 19,
+      catererId: 1,
     };
+    it('should add a menu', (done) => {
+      chai.request(app)
+        .post('/api/v1/menu')
+        .send(menu)
+        .end((err, res) => {
+          expect(res.status).to.be.eql(201);
+          expect(res.body).to.be.an('array');
+        });
+      chai.request(app)
+        .post('/api/v1/menu')
+        .send(menu)
+        .end((err, res) => {
+          expect(res.status).to.be.eql(201);
+          expect(res.body).to.be.an('array');
+        });
+      chai.request(app)
+        .post('/api/v1/menu')
+        .send(menu2)
+        .end((err, res) => {
+          expect(res.status).to.be.eql(201);
+          expect(res.body).to.be.an('array');
+        });
+      done();
+    });
     it('should tell the caterer that no mealId and catererId was sent for the menu', (done) => {
       chai.request(app)
         .post('/api/v1/menu')
         .send({})
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.an('Object');
+          expect(res.status).to.be.eql(400);
+          expect(res.body).to.be.an('array');
         });
       chai.request(app)
         .post('/api/v1/menu')
@@ -44,12 +68,12 @@ describe('Menu Tests', () => {
           catererId: '',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.an('object');
+          expect(res.status).to.be.eql(400);
+          expect(res.body).to.be.an('array');
         });
       done();
     });
-    it('should notify the caterer that no mealId or CatererId was sent', (done) => {
+    it('should notify the caterer that no mealId or CatererId was sent.', (done) => {
       chai.request(app)
         .post('/api/v1/menu')
         .send({
@@ -57,8 +81,8 @@ describe('Menu Tests', () => {
           catererId: '',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'No meal id(s) (mealId) and caterer id (catererId) was sent' });
+          expect(res.status).to.deep.eql(400);
+          expect(res.body).to.be.an('array');
         });
       chai.request(app)
         .post('/api/v1/menu')
@@ -67,9 +91,9 @@ describe('Menu Tests', () => {
           catererId: '',
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(400);
           expect(res.type).to.be.equal('application/json');
-          expect(res.body).to.be.eql({ message: 'error', error: 'No caterer id (catererId) was sent!' });
+          expect(res.body).to.be.an('array');
         });
       chai.request(app)
         .post('/api/v1/menu')
@@ -78,8 +102,8 @@ describe('Menu Tests', () => {
           catererId: 45,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.eql({ message: 'error', error: 'No meal id(s) (mealId) was sent!' });
+          expect(res.status).to.eql(400);
+          expect(res.body).to.be.an('array');
         });
       done();
     });
@@ -91,9 +115,9 @@ describe('Menu Tests', () => {
           catererId: -1,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(400);
           expect(res.type).to.be.equal('application/json');
-          expect(res.body).to.be.eql({ message: 'error', error: 'caterer id [-1] is not valid.' });
+          expect(res.body).to.be.an('array');
         });
       chai.request(app)
         .post('/api/v1/menu')
@@ -102,33 +126,18 @@ describe('Menu Tests', () => {
           catererId: 3,
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
+          expect(res.status).to.be.eql(400);
           expect(res.type).to.be.equal('application/json');
-          expect(res.body).to.be.eql({ message: 'error', error: 'meal id [y] is not valid.' });
-        });
-      done();
-    });
-    it('should add a menu', (done) => {
-      chai.request(app)
-        .post('/api/v1/menu')
-        .send(menu)
-        .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.an('Object');
         });
       chai.request(app)
         .post('/api/v1/menu')
-        .send(menu)
+        .send({
+          mealId: [5],
+          catererId: 1,
+        })
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.an('Object');
-        });
-      chai.request(app)
-        .post('/api/v1/menu')
-        .send(menu2)
-        .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.an('Object');
+          expect(res.status).to.be.eql(404);
+          expect(res.type).to.be.equal('application/json');
         });
       done();
     });
@@ -138,8 +147,7 @@ describe('Menu Tests', () => {
       chai.request(app)
         .get('/api/v1/menu')
         .end((err, res) => {
-          expect(res.status).to.be.eql(200);
-          expect(res.body).to.be.an('Object');
+          expect(res.status).to.eql(200);
           done();
         });
     });

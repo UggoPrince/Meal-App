@@ -12,8 +12,6 @@ var _MealsController = _interopRequireDefault(require("../controllers/MealsContr
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable linebreak-style */
-
-/* eslint-disable no-console */
 var Router = _express.default.Router();
 
 Router.get('/meals', _MealsController.default.getMeals);

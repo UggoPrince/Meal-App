@@ -1,11 +1,7 @@
 /* eslint-disable linebreak-style */
-import sequel from './Sequelizer';
-import Caterer from './Caterers';
+import { sequelize, dataType } from './Sequelizer';
 
-const sequelize = sequel.sequelizer;
-const dataType = sequel.Sequelize;
-
-class Customer {
+class Customers {
   constructor() {
     this.customer = sequelize.define('customer', {
       id: {
@@ -15,33 +11,47 @@ class Customer {
       },
       firstname: {
         type: dataType.STRING,
+        allowNull: false,
         validate: {
-          isNull: false,
-          max: 50,
+          notEmpty: { msg: 'firstname is required.' },
         },
       },
       lastname: {
         type: dataType.STRING,
+        allowNull: false,
         validate: {
-          isNull: false,
-          max: 50,
+          notEmpty: { msg: 'lastname is required.' },
         },
+      },
+      address: {
+        type: dataType.STRING,
+      },
+      phone: {
+        type: dataType.STRING,
       },
       email: {
         type: dataType.STRING,
-        unique: true,
+        unique: { args: true, msg: 'This email is already registered. Login.' },
+        allowNull: false,
         validate: {
-          isNull: false,
-          isEmail: true,
+          isEmail: {
+            args: true,
+            msg: 'Invalid email.',
+          },
         },
       },
       password: {
         type: dataType.STRING,
+        allowNull: false,
         validate: {
-          isNull: false,
-          is: ['^[A-Za-z0-9@_]*$', 'i'],
-          isAlphanumeric: true,
-          min: 8,
+          is: {
+            args: ['^[A-Za-z0-9@_]*$', 'i'],
+            msg: 'Password must be leters, numbers, underscore and/or @ symbol.',
+          },
+          len: {
+            args: [8, 20],
+            msg: 'Password must be between 8 and 20 characters.',
+          },
         },
       },
     });
@@ -51,13 +61,9 @@ class Customer {
     return this.customer;
   }
 
-  associationWithCaterer(model) {
-    this.customer.belongsToMany(model);
+  associationWithCaterer(model, newModel) {
+    this.customer.belongsToMany(model, { through: newModel });
   }
-
-  login() {}
-
-  Register() {}
 }
 
-export default new Customer();
+export default new Customers();

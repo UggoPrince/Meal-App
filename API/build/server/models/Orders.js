@@ -5,20 +5,49 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _Sequelizer = require("./Sequelizer");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/* eslint-disable linebreak-style */
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-/* eslint-disable no-console */
-var Orders = function Orders() {
-  _classCallCheck(this, Orders);
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-  this.id = null;
-  this.meal_id = null;
-  this.customer_id = null;
-  this.caterer_id = null;
-  this.created_at = null;
-};
+var Orders =
+/*#__PURE__*/
+function () {
+  function Orders() {
+    _classCallCheck(this, Orders);
 
-exports.default = Orders;
+    this.order = _Sequelizer.sequelize.define('orders', {
+      id: {
+        type: _Sequelizer.dataType.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      }
+    });
+  }
+
+  _createClass(Orders, [{
+    key: "getOrder",
+    value: function getOrder() {
+      return this.order;
+    }
+  }, {
+    key: "association",
+    value: function association(model) {
+      this.order.belongsTo(model, {
+        foreignKey: {
+          allowNull: false
+        }
+      });
+    }
+  }]);
+
+  return Orders;
+}();
+
+var _default = new Orders();
+
+exports.default = _default;
 //# sourceMappingURL=Orders.js.map

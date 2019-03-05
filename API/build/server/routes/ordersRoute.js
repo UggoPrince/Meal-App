@@ -12,8 +12,6 @@ var _OrdersController = _interopRequireDefault(require("../controllers/OrdersCon
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable linebreak-style */
-
-/* eslint-disable no-console */
 var Router = _express.default.Router();
 
 Router.post('/orders', _OrdersController.default.addOrder);

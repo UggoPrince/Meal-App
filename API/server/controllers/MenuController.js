@@ -1,43 +1,50 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 
-import MenuService from '../services/MenuService';
-import helpers from '../helpers/allHelpers';
-
-const menuService = new MenuService();
+import menuService from '../services/MenuService';
+import mealsService from '../services/MealsService';
+import getErrorMessage from '../helpers/allHelpers';
 
 class MenuController {
-  addMenu(req, res) {
-    const { mealId, catererId } = req.body;
-    if (mealId && catererId) {
-      const mealNum = mealId;
-      const catID = parseInt(catererId, 10);
+  async addMenu(req, res) {
+    const meals = req.body.mealId;
 
-      const validMealId = helpers.menuOptionValid(mealNum);
-      if (validMealId.message === 'error') {
-        res.status(200).send({ message: 'error', error: `meal id [${validMealId.error}] is not valid.` });
-      } else if (!helpers.validID(catID)) {
-        res.status(200).send({ message: 'error', error: `caterer id [${catererId}] is not valid.` });
-      } else {
-        const addedMenu = menuService.add(mealNum, catID, Date.now());
-        res.status(200).send({ message: 'success', body: addedMenu });
+    let mealNO = false;
+    const errMes = [];
+    if (meals) {
+      for (let i = 0; i < meals.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+        const mealExist = await mealsService.getMealById(meals[i]);
+        if (mealExist.count === 0) {
+          mealNO = true;
+          errMes.push(`meal id ${meals[i]} is invalid.`);
+        }
       }
-    } else if (!mealId && !catererId) {
-      res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) and caterer id (catererId) was sent' });
-    } else if (!mealId) {
-      res.status(200).send({ message: 'error', error: 'No meal id(s) (mealId) was sent!' });
-    } else if (!catererId) {
-      res.status(200).send({ message: 'error', error: 'No caterer id (catererId) was sent!' });
+    }
+
+    if (mealNO) res.status(404).send(errMes);
+    else {
+      const addedMenu = await menuService.add(req.body);
+
+      if (addedMenu.errors) {
+        const err = getErrorMessage(addedMenu.errors);
+        res.status(400).send(err);
+      } else if (addedMenu.name === 'SequelizeDatabaseError') {
+        res.status(400).send(['A meal id is invalid.']);
+      } else if (addedMenu.name === 'SequelizeForeignKeyConstraintError') {
+        res.status(400).send([addedMenu.original.detail]);
+      } else {
+        res.status(201).send(addedMenu);
+      }
     }
   }
 
-  getMenu(req, res) {
-    const menuExist = menuService.menuExist();
-    if (!menuExist) {
-      res.status(200).send({ message: 'success', body: 'No Menu. Set up a Menu now.' });
+  async getMenu(req, res) {
+    const menu = await menuService.getAllMenus();
+    if (menu.count === 0) {
+      res.status(200).send(['No menu available. Add one.']);
     } else {
-      res.status(200).send({ message: 'success', body: menuService.get() });
+      res.status(200).send(menu);
     }
   }
 }

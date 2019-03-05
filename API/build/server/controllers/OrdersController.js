@@ -11,13 +11,15 @@ var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var ordersService = new _OrdersService.default();
 
 var OrdersController =
 /*#__PURE__*/
@@ -28,125 +30,125 @@ function () {
 
   _createClass(OrdersController, [{
     key: "addOrder",
-    value: function addOrder(req, res) {
-      var _req$body = req.body,
-          mealId = _req$body.mealId,
-          customerId = _req$body.customerId,
-          catererId = _req$body.catererId;
+    value: function () {
+      var _addOrder = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(req, res) {
+        var addedOrder, err;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _OrdersService.default.add(req.body);
 
-      if (mealId && customerId && catererId) {
-        var milID = parseInt(mealId, 10);
-        var custID = parseInt(customerId, 10);
-        var catID = parseInt(catererId, 10);
+              case 2:
+                addedOrder = _context.sent;
 
-        if (!_allHelpers.default.validID(milID)) {
-          res.status(200).send({
-            message: 'error',
-            error: "meal id [".concat(mealId, "] is not valid.")
-          });
-        } else if (!_allHelpers.default.validID(custID)) {
-          res.status(200).send({
-            message: 'error',
-            error: "customer id [".concat(customerId, "] is not valid.")
-          });
-        } else if (!_allHelpers.default.validID(catID)) {
-          res.status(200).send({
-            message: 'error',
-            error: "caterer id [".concat(catererId, "] is not valid.")
-          });
-        } else {
-          var addedOrder = ordersService.add(milID, custID, catID, Date.now());
-          res.status(200).send({
-            message: 'success',
-            body: addedOrder
-          });
-        }
-      } else if (!mealId && !customerId && !catererId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No mealId, customerId and catererId was sent'
-        });
-      } else if (!mealId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No mealId was sent!'
-        });
-      } else if (!customerId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No customerId was sent!'
-        });
-      } else if (!catererId) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No catererId was sent!'
-        });
-      }
-    }
-  }, {
-    key: "modifyOrder",
-    value: function modifyOrder(req, res) {
-      var mealID = req.body.mealId;
-      var orderID = parseInt(req.params.id, 10);
+                if (addedOrder.errors) {
+                  err = (0, _allHelpers.default)(addedOrder.errors);
+                  res.status(400).send(err);
+                } else if (addedOrder.name === 'SequelizeDatabaseError') {
+                  res.status(400).send(['An invalid id was sent.']);
+                } else if (addedOrder.name === 'SequelizeForeignKeyConstraintError') {
+                  res.status(404).send([addedOrder.original.detail]);
+                } else {
+                  res.status(201).send(addedOrder);
+                }
 
-      var orderIdNum = _allHelpers.default.validID(orderID);
-
-      if (orderIdNum) {
-        if (mealID) {
-          var milId = parseInt(mealID, 10);
-
-          if (!_allHelpers.default.validID(milId)) {
-            res.status(200).send({
-              message: 'error',
-              error: 'invalid meal id'
-            });
-          } else {
-            var orderIdExist = ordersService.orderIdExist(orderID);
-
-            if (orderIdExist.exist) {
-              var modifiedOrder = ordersService.modify(orderIdExist.index, milId);
-              res.status(200).send({
-                message: 'success',
-                body: modifiedOrder
-              });
-            } else {
-              res.status(200).send({
-                message: 'error',
-                error: "No order with the id [".concat(orderID, "]")
-              });
+              case 4:
+              case "end":
+                return _context.stop();
             }
           }
-        } else {
-          res.status(200).send({
-            message: 'error',
-            error: 'no meal id was sent.'
-          });
-        }
-      } else {
-        res.status(200).send({
-          message: 'error',
-          error: 'Invalid Order id.'
-        });
+        }, _callee, this);
+      }));
+
+      function addOrder(_x, _x2) {
+        return _addOrder.apply(this, arguments);
       }
-    }
+
+      return addOrder;
+    }()
+  }, {
+    key: "modifyOrder",
+    value: function () {
+      var _modifyOrder = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(req, res) {
+        var modOrder, err;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _OrdersService.default.modify(req.body.mealId, req.params.id);
+
+              case 2:
+                modOrder = _context2.sent;
+
+                if (modOrder.errors) {
+                  err = (0, _allHelpers.default)(modOrder.errors);
+                  res.status(400).send(err);
+                } else if (modOrder.name === 'SequelizeDatabaseError') {
+                  res.status(404).send(['Invalid mealId.']);
+                } else if (modOrder[0] === 0) {
+                  res.status(404).send(['Invalid orderId.']);
+                } else {
+                  res.status(200).send(modOrder);
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function modifyOrder(_x3, _x4) {
+        return _modifyOrder.apply(this, arguments);
+      }
+
+      return modifyOrder;
+    }()
   }, {
     key: "getOrders",
-    value: function getOrders(req, res) {
-      var totalOrders = ordersService.totalOrders();
+    value: function () {
+      var _getOrders = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(req, res) {
+        var allOrders;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _OrdersService.default.getAllOrders();
 
-      if (totalOrders < 1) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No orders available.'
-        });
-      } else {
-        var allOrders = ordersService.getAllOrders();
-        res.status(200).send({
-          message: 'success',
-          body: allOrders
-        });
+              case 2:
+                allOrders = _context3.sent;
+
+                if (allOrders.count === 0) {
+                  res.status(200).send(['No orders available.']);
+                } else {
+                  res.status(200).send(allOrders);
+                }
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function getOrders(_x5, _x6) {
+        return _getOrders.apply(this, arguments);
       }
-    }
+
+      return getOrders;
+    }()
   }]);
 
   return OrdersController;

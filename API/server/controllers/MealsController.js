@@ -1,69 +1,55 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 
-import MealsService from '../services/MealsService';
-import helpers from '../helpers/allHelpers';
-
-const mealsService = new MealsService();
+import mealsService from '../services/MealsService';
+import getErrorMessage from '../helpers/allHelpers';
 
 class MealsController {
-  getMeals(req, res) {
-    res.status(200).send(mealsService.getAll());
-  }
-
-  addMeal(req, res) {
-    const {
-      name, size, price, currency, caterer,
-    } = req.body;
-    if (!name && !size && !price && !currency && !caterer) {
-      res.status(200).send({ message: 'error', error: 'No meal was sent.' });
-    } else if (!name) {
-      res.status(200).send({ message: 'error', error: 'No meal (name) was sent.' });
-    } else if (!size) {
-      res.status(200).send({ message: 'error', error: 'No meal (size) was sent.' });
-    } else if (!price) {
-      res.status(200).send({ message: 'error', error: 'No meal (price) was sent.' });
-    } else if (!currency) {
-      res.status(200).send({ message: 'error', error: 'No meal (currency) was sent.' });
-    } else if (!caterer) {
-      res.status(200).send({ message: 'error', error: 'No catererId (caterer) was sent.' });
+  async getMeals(req, res) {
+    const meals = await mealsService.getAllMeals();
+    /* if (meals.errors) {
+      res.status(400).send(meals.errors);
+    } */
+    if (meals.count === 0) {
+      res.status(200).send(['No meals yets. Add a meal.']);
     } else {
-      const addedMeal = mealsService.add(name, size, price, currency, caterer);
-      res.status(200).send({ message: 'success', body: addedMeal });
+      res.status(200).send(meals);
     }
   }
 
-  modifyMeal(req, res) {
-    const mealId = parseInt(req.params.id, 10);
-    const mealName = req.body.name;
-    const mealPrice = req.body.price;
-    const mealExist = mealsService.mealExist(mealId);
-
-    if (helpers.validID(mealId) && mealExist.true) {
-      if (!helpers.canModifyMeal(mealName, mealPrice)) {
-        res.status(200).send({
-          message: 'error',
-          error: 'No data for the name and/or price update of meal was submitted',
-        });
-      } else {
-        const modifiedMeal = mealsService.modify(mealExist.index, mealName, mealPrice);
-        res.status(200).send({ message: 'success', body: modifiedMeal });
-      }
+  async addMeal(req, res) {
+    const addedMeal = await mealsService.add(req.body);
+    if (addedMeal.errors) {
+      const err = getErrorMessage(addedMeal.errors);
+      res.status(400).send(err);
+    } else if (addedMeal.name === 'SequelizeForeignKeyConstraintError') {
+      res.status(400).send([addedMeal.original.detail]);
     } else {
-      res.status(200).send({ message: 'error', error: 'invalid ID' });
+      res.status(201).send(addedMeal);
     }
   }
 
-  deleteMeal(req, res) {
-    const mealId = parseInt(req.params.id, 10);
-    const mealExist = mealsService.mealExist(mealId);
-
-    if (helpers.validID(mealId) && mealExist.true) {
-      const deletedMeal = mealsService.delete(mealExist.index);
-      res.status(200).send({ message: 'success', body: deletedMeal });
+  async modifyMeal(req, res) {
+    const mealId = req.params.id;
+    const modMeal = await mealsService.modify(req.body, mealId);
+    if (modMeal[0] === 0 || modMeal.name === 'SequelizeDatabaseError') {
+      res.status(404).send(['Invalid meal id.']);
+    } else if (modMeal.errors) {
+      const err = getErrorMessage(modMeal.errors);
+      res.status(400).send(err);
     } else {
-      res.status(200).send({ message: 'error', error: 'invalid ID' });
+      res.status(200).send(modMeal);
+    }
+  }
+
+  async deleteMeal(req, res) {
+    const mealId = req.params.id;
+    const delMeal = await mealsService.delete(mealId);
+
+    if (delMeal.name === 'SequelizeDatabaseError' || delMeal === 0) {
+      res.status(404).send(['Invalid meal id.']);
+    } else {
+      res.status(200).send(['Meal successfully deleted.']);
     }
   }
 }
