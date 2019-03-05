@@ -9,7 +9,7 @@ dotenv.config();
 class Sequelizer {
   constructor() {
     this.sequel = new Sequelize(
-      process.env.DATABASE_URL, {
+      process.env.DATABASE_URL + process.env.DATABASE, {
         host: 'localhost',
         dialect: 'postgres',
         operatorsAliases: false,
