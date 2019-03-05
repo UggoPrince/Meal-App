@@ -1,7 +1,5 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable class-methods-use-this */
-// eslint-disable-next-line import/no-extraneous-dependencies
-import 'babel-polyfill';
 import mealsService from '../services/MealsService';
 import getErrorMessage from '../helpers/allHelpers';
 

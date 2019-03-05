@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-require("babel-polyfill");
-
 var _index = require("../models/index");
 
 var _MealsService = _interopRequireDefault(require("./MealsService"));

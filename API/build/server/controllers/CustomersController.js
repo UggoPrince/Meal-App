@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-require("babel-polyfill");
-
 var _CustomersService = _interopRequireDefault(require("../services/CustomersService"));
 
 var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
