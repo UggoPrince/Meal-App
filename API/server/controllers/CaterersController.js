@@ -2,24 +2,38 @@
 /* eslint-disable class-methods-use-this */
 import caterersService from '../services/CaterersService';
 import getErrorMessage from '../helpers/allHelpers';
+import JWT from '../helpers/JWT';
 
 class CaterersController {
   async getCaterer(req, res) {
-    const cust = await caterersService.login(req.body);
-    if (cust.count === 0) {
+    /* const sentToken = await req.get('Authorization');
+    let jwt = '';
+
+    if (sentToken) {
+      jwt = await JWT.verifyToken(sentToken);
+    } else jwt = 'no token'; */
+
+    // if (jwt === 'no token' || jwt.tokenExp) {
+    const cat = await caterersService.login(req.body);
+    if (cat.count === 0) {
       res.status(404).send(['Invalid Caterer email and/or password. Simply Register.']);
     } else {
-      res.status(200).send(cust.rows);
+      const token = JWT.signToken({ data: cat.rows[0], role: 'caterer' });
+      res.status(200).send({ token });
     }
+    /* } else {
+      res.status(200).send({ token: sentToken });
+    } */
   }
 
   async addCaterer(req, res) {
-    const cust = await caterersService.register(req.body);
-    if (cust.errors) {
-      const err = getErrorMessage(cust.errors);
+    const cat = await caterersService.register(req.body);
+    if (cat.errors) {
+      const err = getErrorMessage(cat.errors);
       res.status(404).send(err);
     } else {
-      res.status(201).send(cust);
+      const token = JWT.signToken({ data: cat, role: 'caterer' });
+      res.status(201).send({ token });
     }
   }
 }

@@ -63,11 +63,16 @@ describe('Customers Test', () => {
       done();
     });
   });
+
+
   describe('POST /api/v1/customers/auth/login', () => {
     it('should not login the user', (done) => {
       chai.request(app)
         .post('/api/v1/customers/auth/login')
-        .send({})
+        .send({
+          email: 'ugo@gmai.com',
+          password: '12345678',
+        })
         .end((err, res) => {
           expect(res.status).to.be.eql(404);
           expect(res.type).to.be.equal('application/json');

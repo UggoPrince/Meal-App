@@ -5,6 +5,7 @@ import 'babel-polyfill';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import { seq } from '../server/models/Sequelizer';
+import JWT from '../server/helpers/allHelpers';
 import app from './app';
 
 
@@ -73,6 +74,8 @@ describe('Caterers Test', () => {
       done();
     });
   });
+
+
   describe('POST /api/v1/caterers/auth/login', () => {
     it('should not login the user', (done) => {
       chai.request(app)
@@ -88,13 +91,14 @@ describe('Caterers Test', () => {
     it('should login the user', (done) => {
       chai.request(app)
         .post('/api/v1/caterers/auth/login')
+        .set({})
         .send({
           email: 'uggo@gmail.com',
           password: '12345678',
         })
         .end((err, res) => {
           expect(res.status).to.be.eql(200);
-          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('object');
         });
       done();
     });
