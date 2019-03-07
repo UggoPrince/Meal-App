@@ -36,14 +36,14 @@ class OrdersController {
     const sentToken = req.get('Authorization');
     if (sentToken) {
       const jwt = await JWT.verifyToken(sentToken);
-      if (!jwt.tokenExp && jwt.decode.role === 'caterer') {
+      if (!jwt.tokenExp && jwt.decode.role === 'customer') {
         const orderID = req.params.id;
         const mealID = req.body.mealId;
         const modOrder = await ordersService.modify(orderID, mealID, jwt.decode.data.id);
         if (modOrder[0] === 0) {
-          res.status(404).send(['Invalid orderId']);
+          res.status(404).send(['Invalid orderId.']);
         } else if (modOrder.name === 'SequelizeDatabaseError') {
-          res.status(404).send(['Invalid mealId/orderId']);
+          res.status(404).send(['Invalid mealId/orderId.']);
         } else {
           res.status(200).send(modOrder);
         }

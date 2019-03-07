@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dataType = exports.sequelize = exports.seq = void 0;
+exports.default = void 0;
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
-var _sequelize = _interopRequireDefault(require("sequelize"));
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23,41 +23,44 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 _dotenv.default.config();
 
-var Sequelizer =
+var JWT =
 /*#__PURE__*/
 function () {
-  function Sequelizer() {
-    _classCallCheck(this, Sequelizer);
-
-    this.sequel = new _sequelize.default('dfietbbbsu1pub', 'lcgmatquxeupai', '586b19a0984f0fcaa10f440433cac7e7ad33cb66e5283a8e4815085d1c6dedea', {
-      host: 'ec2-174-129-236-21.compute-1.amazonaws.com',
-      dialect: 'postgres',
-      operatorsAliases: false
-    });
-    this.Sequelize = _sequelize.default;
+  function JWT() {
+    _classCallCheck(this, JWT);
   }
 
-  _createClass(Sequelizer, [{
-    key: "getSequelizer",
-    value: function getSequelizer() {
-      return this.sequel;
-    }
-  }, {
-    key: "createTables",
+  _createClass(JWT, [{
+    key: "verifyToken",
     value: function () {
-      var _createTables = _asyncToGenerator(
+      var _verifyToken = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(truthy) {
+      regeneratorRuntime.mark(function _callee(sentToken) {
+        var token;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return this.sequel.sync({
-                  force: truthy
+                return _jsonwebtoken.default.verify(sentToken, process.env.secret, function (err, decode) {
+                  if (err) {
+                    return {
+                      tokenExp: true,
+                      error: err
+                    };
+                  }
+
+                  return {
+                    tokenExp: false,
+                    decode: decode
+                  };
                 });
 
               case 2:
+                token = _context.sent;
+                return _context.abrupt("return", token);
+
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -65,21 +68,25 @@ function () {
         }, _callee, this);
       }));
 
-      function createTables(_x) {
-        return _createTables.apply(this, arguments);
+      function verifyToken(_x) {
+        return _verifyToken.apply(this, arguments);
       }
 
-      return createTables;
+      return verifyToken;
     }()
+  }, {
+    key: "signToken",
+    value: function signToken(data) {
+      return _jsonwebtoken.default.sign(data, process.env.secret, {
+        expiresIn: process.env.tokenTime
+      });
+    }
   }]);
 
-  return Sequelizer;
+  return JWT;
 }();
 
-var seq = new Sequelizer();
-exports.seq = seq;
-var sequelize = seq.getSequelizer();
-exports.sequelize = sequelize;
-var dataType = seq.Sequelize;
-exports.dataType = dataType;
-//# sourceMappingURL=Sequelizer.js.map
+var _default = new JWT();
+
+exports.default = _default;
+//# sourceMappingURL=JWT.js.map

@@ -1,11 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint linebreak-style: ["error", "windows"] */
 /* global describe:true, it:true */
-/* import 'babel-polyfill';
+import 'babel-polyfill';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import dotenv from 'dotenv';
 import app from './app';
 
+dotenv.config();
 chai.use(chaiHttp);
 
 describe('Menu Tests', () => {
@@ -13,6 +15,7 @@ describe('Menu Tests', () => {
     it('should tell the caterer to add a menu because non is available', (done) => {
       chai.request(app)
         .get('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .end((err, res) => {
           expect(res.status).to.be.eql(200);
           expect(res.body).to.be.eql(['No menu available. Add one.']);
@@ -23,15 +26,14 @@ describe('Menu Tests', () => {
   describe('POST /api/v1/menu', () => {
     const menu = {
       mealId: [1, 2],
-      catererId: 1,
     };
     const menu2 = {
       mealId: [1, 2],
-      catererId: 1,
     };
     it('should add a menu', (done) => {
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send(menu)
         .end((err, res) => {
           expect(res.status).to.be.eql(201);
@@ -39,6 +41,7 @@ describe('Menu Tests', () => {
         });
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send(menu)
         .end((err, res) => {
           expect(res.status).to.be.eql(201);
@@ -46,6 +49,7 @@ describe('Menu Tests', () => {
         });
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send(menu2)
         .end((err, res) => {
           expect(res.status).to.be.eql(201);
@@ -53,9 +57,10 @@ describe('Menu Tests', () => {
         });
       done();
     });
-    it('should tell the caterer that no mealId and catererId was sent for the menu', (done) => {
+    it('should tell the caterer that no mealId was sent for the menu', (done) => {
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send({})
         .end((err, res) => {
           expect(res.status).to.be.eql(400);
@@ -63,9 +68,9 @@ describe('Menu Tests', () => {
         });
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send({
           mealId: '',
-          catererId: '',
         })
         .end((err, res) => {
           expect(res.status).to.be.eql(400);
@@ -73,12 +78,12 @@ describe('Menu Tests', () => {
         });
       done();
     });
-    it('should notify the caterer that no mealId or CatererId was sent.', (done) => {
+    it('should notify the caterer that no mealId was sent.', (done) => {
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send({
           mealId: '',
-          catererId: '',
         })
         .end((err, res) => {
           expect(res.status).to.deep.eql(400);
@@ -86,20 +91,9 @@ describe('Menu Tests', () => {
         });
       chai.request(app)
         .post('/api/v1/menu')
-        .send({
-          mealId: [1],
-          catererId: '',
-        })
-        .end((err, res) => {
-          expect(res.status).to.be.eql(400);
-          expect(res.type).to.be.equal('application/json');
-          expect(res.body).to.be.an('array');
-        });
-      chai.request(app)
-        .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send({
           mealId: '',
-          catererId: 45,
         })
         .end((err, res) => {
           expect(res.status).to.eql(400);
@@ -107,23 +101,12 @@ describe('Menu Tests', () => {
         });
       done();
     });
-    it('should not add a menu if an invalid meal and/or caterer Id is sent', (done) => {
+    it('should not add a menu if an invalid meal Id is sent', (done) => {
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send({
-          mealId: [1, 2],
-          catererId: -1,
-        })
-        .end((err, res) => {
-          expect(res.status).to.be.eql(400);
-          expect(res.type).to.be.equal('application/json');
-          expect(res.body).to.be.an('array');
-        });
-      chai.request(app)
-        .post('/api/v1/menu')
-        .send({
-          mealId: ['y', 1],
-          catererId: 3,
+          mealId: ['y'],
         })
         .end((err, res) => {
           expect(res.status).to.be.eql(400);
@@ -131,9 +114,9 @@ describe('Menu Tests', () => {
         });
       chai.request(app)
         .post('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCAT })
         .send({
           mealId: [5],
-          catererId: 1,
         })
         .end((err, res) => {
           expect(res.status).to.be.eql(404);
@@ -141,15 +124,40 @@ describe('Menu Tests', () => {
         });
       done();
     });
+    it('should not add a menu if no token is sent', (done) => {
+      chai.request(app)
+        .post('/api/v1/menu')
+        .set({ Authorization: '' })
+        .send({
+          mealId: [1],
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(401);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.eql(['No Authorization header sent. Login and send a token.']);
+          done();
+        });
+    });
   });
   describe('GET /api/v1/menu', () => {
     it('should get available menus', (done) => {
       chai.request(app)
         .get('/api/v1/menu')
+        .set({ Authorization: process.env.tokenCUST })
         .end((err, res) => {
           expect(res.status).to.eql(200);
           done();
         });
     });
+    it('should not get available menus when no token is sent', (done) => {
+      chai.request(app)
+        .get('/api/v1/menu')
+        .set({ Authorization: '' })
+        .end((err, res) => {
+          expect(res.status).to.eql(401);
+          expect(res.body).to.be.eql(['No Authorization header sent. Login and send a token.']);
+          done();
+        });
+    });
   });
-}); */
+});

@@ -6,14 +6,6 @@ import JWT from '../helpers/JWT';
 
 class CaterersController {
   async getCaterer(req, res) {
-    /* const sentToken = await req.get('Authorization');
-    let jwt = '';
-
-    if (sentToken) {
-      jwt = await JWT.verifyToken(sentToken);
-    } else jwt = 'no token'; */
-
-    // if (jwt === 'no token' || jwt.tokenExp) {
     const cat = await caterersService.login(req.body);
     if (cat.count === 0) {
       res.status(404).send(['Invalid Caterer email and/or password. Simply Register.']);
@@ -21,9 +13,6 @@ class CaterersController {
       const token = JWT.signToken({ data: cat.rows[0], role: 'caterer' });
       res.status(200).send({ token });
     }
-    /* } else {
-      res.status(200).send({ token: sentToken });
-    } */
   }
 
   async addCaterer(req, res) {

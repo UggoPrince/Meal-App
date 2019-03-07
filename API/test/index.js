@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint linebreak-style: ["error", "windows"] */
 /* global describe:true, it:true */
-/* import 'babel-polyfill';
+import 'babel-polyfill';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from './app';
@@ -19,8 +19,18 @@ describe('App Entry Points', () => {
       + '<h1>Welcome to Meal-Booking-App</h1>'
       + '<h3>Below are the endpoints to access this API</h3>'
       + '<ul>'
+        + '<li><p>Send Header >>> Authorization : token</p></li>'
+        + '<li><p>POST /api/v1/caterers/auth/signup<p><span> With the following keys:'
+        + '<b> firstname, lastname, restaurant, email, password</span></li>'
+        + '<li><p>POST /api/v1/caterers/auth/login</p><span> With the following keys:'
+        + '<b> email, password</span></li>'
+        + '<li><p>POST /api/v1/customers/auth/signup<p><span> With the following keys:'
+        + '<b> firstname, lastname, email, password</span></li>'
+        + '<li><p>POST /api/v1/customers/auth/login</p><span> With the following keys:'
+        + '<b> email, password</span></li>'
         + '<li><p>GET /api/v1/meals<p></li>'
-        + '<li><p>POST /api/v1/meals<p><span>With the follow keys: '
+        + '<li><p>GET /api/v1/meals<p></li>'
+        + '<li><p>POST /api/v1/meals<p><span>With the following keys: '
         + '<b>name (string), size (string), price (integer), currency (string), catererId (integer).</b></span></li>'
         + '<li><p>PUT /api/v1/meals/id<p><span>With the following keys: <b>name, price.</b></span></li>'
         + '<li><p>DELETE /api/v1/meals/id<p></li>'
@@ -38,4 +48,4 @@ describe('App Entry Points', () => {
         done();
       });
   });
-}); */
+});

@@ -11,6 +11,8 @@ var _MealsService = _interopRequireDefault(require("../services/MealsService"));
 
 var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
 
+var _JWT = _interopRequireDefault(require("../helpers/JWT"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -36,32 +38,50 @@ function () {
       var _addMenu = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var meals, mealNO, errMes, i, mealExist, addedMenu, err;
+        var sentToken, jwt, meals, mealNO, errMes, i, mealExist, reqBody, addedMenu, err;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                sentToken = req.get('Authorization');
+
+                if (!sentToken) {
+                  _context.next = 33;
+                  break;
+                }
+
+                _context.next = 4;
+                return _JWT.default.verifyToken(sentToken);
+
+              case 4:
+                jwt = _context.sent;
+
+                if (!(!jwt.tokenExp && jwt.decode.role === 'caterer')) {
+                  _context.next = 30;
+                  break;
+                }
+
                 meals = req.body.mealId;
                 mealNO = false;
                 errMes = [];
 
                 if (!meals) {
-                  _context.next = 13;
+                  _context.next = 19;
                   break;
                 }
 
                 i = 0;
 
-              case 5:
+              case 11:
                 if (!(i < meals.length)) {
-                  _context.next = 13;
+                  _context.next = 19;
                   break;
                 }
 
-                _context.next = 8;
+                _context.next = 14;
                 return _MealsService.default.getMealById(meals[i]);
 
-              case 8:
+              case 14:
                 mealExist = _context.sent;
 
                 if (mealExist.count === 0) {
@@ -69,26 +89,30 @@ function () {
                   errMes.push("meal id ".concat(meals[i], " is invalid."));
                 }
 
-              case 10:
+              case 16:
                 i += 1;
-                _context.next = 5;
+                _context.next = 11;
                 break;
 
-              case 13:
+              case 19:
                 if (!mealNO) {
-                  _context.next = 17;
+                  _context.next = 23;
                   break;
                 }
 
                 res.status(404).send(errMes);
-                _context.next = 21;
+                _context.next = 28;
                 break;
 
-              case 17:
-                _context.next = 19;
-                return _MenuService.default.add(req.body);
+              case 23:
+                reqBody = {
+                  mealId: meals,
+                  catererId: jwt.decode.data.id
+                };
+                _context.next = 26;
+                return _MenuService.default.add(reqBody);
 
-              case 19:
+              case 26:
                 addedMenu = _context.sent;
 
                 if (addedMenu.errors) {
@@ -96,13 +120,25 @@ function () {
                   res.status(400).send(err);
                 } else if (addedMenu.name === 'SequelizeDatabaseError') {
                   res.status(400).send(['A meal id is invalid.']);
-                } else if (addedMenu.name === 'SequelizeForeignKeyConstraintError') {
-                  res.status(400).send([addedMenu.original.detail]);
                 } else {
                   res.status(201).send(addedMenu);
                 }
 
-              case 21:
+              case 28:
+                _context.next = 31;
+                break;
+
+              case 30:
+                res.status(401).send(['Session expired. Login as a Caterer to add a Menu.']);
+
+              case 31:
+                _context.next = 34;
+                break;
+
+              case 33:
+                res.status(401).send(['No Authorization header sent. Login and send a token.']);
+
+              case 34:
               case "end":
                 return _context.stop();
             }
@@ -122,15 +158,33 @@ function () {
       var _getMenu = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var menu;
+        var sentToken, jwt, menu;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
+                sentToken = req.get('Authorization');
+
+                if (!sentToken) {
+                  _context2.next = 15;
+                  break;
+                }
+
+                _context2.next = 4;
+                return _JWT.default.verifyToken(sentToken);
+
+              case 4:
+                jwt = _context2.sent;
+
+                if (jwt.tokenExp) {
+                  _context2.next = 12;
+                  break;
+                }
+
+                _context2.next = 8;
                 return _MenuService.default.getAllMenus();
 
-              case 2:
+              case 8:
                 menu = _context2.sent;
 
                 if (menu.count === 0) {
@@ -139,7 +193,20 @@ function () {
                   res.status(200).send(menu);
                 }
 
-              case 4:
+                _context2.next = 13;
+                break;
+
+              case 12:
+                res.status(401).send(['Session expired. Login to view menus.']);
+
+              case 13:
+                _context2.next = 16;
+                break;
+
+              case 15:
+                res.status(401).send(['No Authorization header sent. Login and send a token.']);
+
+              case 16:
               case "end":
                 return _context2.stop();
             }
