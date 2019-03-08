@@ -9,7 +9,7 @@ env:
   tokenCAT=bread
   tokenExpCAT=expbread
   tokenCUST=beans
-  tokenExpCUST=expbeans
+  tokenExpCUST=expbean
 install:
   - npm install
 cache:
