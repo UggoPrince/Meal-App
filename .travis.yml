@@ -4,6 +4,12 @@ node_js:
   - "node"
 env:
   global: CC_TEST_REPORTER_ID=cd14bf6e4573f278c89dfdf42d33474b4f217650749bee248004624d0f012873
+  secret=klhghyrtdt
+  tokenTime=3600
+  tokenCAT=bread
+  tokenExpCAT=expbread
+  tokenCUST=beans
+  tokenExpCUST=expbeans
 install:
   - cd API
   - npm install
