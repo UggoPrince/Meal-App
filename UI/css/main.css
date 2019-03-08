@@ -6,7 +6,7 @@ html {
 html, body {
   height: 100%;
   min-height: 100%;
-  font-family: Georgia;
+  font-family: 'Amaranth';
 }
 
 *, *:before, *:after {
@@ -31,6 +31,10 @@ body {
 aside {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
+}
+
+.sidebar {
+  min-height: 10px;
 }
 
 .row {
@@ -85,6 +89,10 @@ aside {
           flex: 3;
 }
 
+.brand {
+  font-family: 'Fredericka the Great';
+}
+
 .cards {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -103,6 +111,8 @@ aside {
   margin: 10px auto;
   border: 1px solid #ccc;
   background-color: white;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   /*box-shadow: 1px 1px 3px 0px #CCC;*/
 }
 
@@ -121,13 +131,18 @@ aside {
 }
 
 .card .text button {
-  padding: 3px;
+  padding: 5px 10px;
+  border: 1px solid #CCC;
+  background-color: tomato;
+  cursor: pointer;
+  color: white;
+  border-radius: 3px;
 }
 
 .card .text button:hover, .card .text button :active {
   background-color: #2581DC;
   color: white;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
 }
 
 .card img {
@@ -136,8 +151,8 @@ aside {
 
 .mini-menu {
   border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 3px 0px #CCC;
-          box-shadow: 0px 0px 3px 0px #CCC;
+  -webkit-box-shadow: 0px 0px 5px 0px #CCC;
+          box-shadow: 0px 0px 5px 0px #CCC;
   margin-bottom: 20px;
 }
 
@@ -148,6 +163,7 @@ aside {
 
 .mini-menu-desc img {
   width: 90px;
+  height: 90px;
   border: 3px solid white;
   background-color: white;
 }
@@ -162,6 +178,44 @@ aside {
   cursor: pointer;
 }
 
+.mini-order {
+  border: 1px solid #aaa;
+  min-height: 300px;
+}
+
+.mini-order a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.mini-order a span {
+  border-radius: 5px;
+  display: none;
+}
+
+#orderBox {
+  min-height: 200px;
+}
+
+.divHoldOrder {
+  border: 1px solid #aaa;
+  border-left: 0px;
+  border-right: 0px;
+  margin: 2px 0px;
+}
+
+.divHoldOrder input {
+  width: 50px;
+}
+
+/* .orderButton{
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 3px;
+    &:hover{
+        border: 1px solid;
+    }
+} */
 .box-shadow {
   -webkit-box-shadow: 0px 0px 3px 0px #CCC;
           box-shadow: 0px 0px 3px 0px #CCC;
@@ -171,12 +225,24 @@ aside {
   display: block;
 }
 
+.font-amaranth {
+  font-family: 'Amaranth';
+}
+
+.font-unna {
+  font-family: 'Unna';
+}
+
 .full-width {
   width: 100%;
 }
 
 .w-70 {
   width: 70%;
+}
+
+.w-90 {
+  width: 90%;
 }
 
 .mw-30em {
@@ -207,6 +273,18 @@ aside {
   min-height: 50%;
 }
 
+.mh100 {
+  min-height: 100px;
+}
+
+.mt-0px {
+  margin-top: 0px;
+}
+
+.mb-0px {
+  margin-top: 0px;
+}
+
 .mt-10px {
   margin-top: 10px;
 }
@@ -217,6 +295,10 @@ aside {
 
 .mt-20px {
   margin-top: 20px;
+}
+
+.mb-20px {
+  margin-bottom: 20px;
 }
 
 .mt-30px {
@@ -260,8 +342,24 @@ aside {
   margin-right: auto;
 }
 
+.tdn a {
+  text-decoration: none;
+}
+
 .pd1 {
   padding: 10px;
+}
+
+.pd3 {
+  padding: 30px;
+}
+
+.pd5 {
+  padding: 50px;
+}
+
+.pd10 {
+  padding: 100px;
 }
 
 .pd-l1 {
@@ -272,12 +370,40 @@ aside {
   padding-top: 100px;
 }
 
+.pdt-20px {
+  padding-top: 20px;
+}
+
+.pdl-20px {
+  padding-left: 20px;
+}
+
+.pdr-20px {
+  padding-right: 20px;
+}
+
+.pdb-20px {
+  padding-bottom: 20px;
+}
+
+.pdt-30px {
+  padding-top: 30px;
+}
+
+.pdb-30px {
+  padding-bottom: 30px;
+}
+
 .pdb-50px {
   padding-bottom: 50px;
 }
 
 .pdb-70px {
   padding-bottom: 70px;
+}
+
+.br5 {
+  border-radius: 5px;
 }
 
 .ff-georgia {
@@ -328,6 +454,10 @@ aside {
   background-color: white;
 }
 
+.bg-black {
+  background-color: #555;
+}
+
 .bg-img1 {
   background: url(../images/bg1.jpg) no-repeat center;
   background-origin: border-box;
@@ -341,6 +471,10 @@ aside {
 
 .color-blu {
   color: #2581DC;
+}
+
+.color-white {
+  color: white;
 }
 
 .color-white2 {
@@ -410,6 +544,15 @@ aside {
   content: "*";
   vertical-align: middle;
   color: #ff3333;
+}
+
+.thankYouButton {
+  border: 1px solid;
+  cursor: pointer;
+}
+
+.thankYouButton:hover {
+  border-color: #2581DC;
 }
 
 .va-t {
@@ -546,6 +689,12 @@ nav ul li a:visited:hover {
   background: #262626;
   height: 70px;
   width: 70px;
+}
+
+@media only screen and (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 799px) {
