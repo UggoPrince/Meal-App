@@ -23,6 +23,18 @@ describe('Customers Test', () => {
           expect(res.status).to.be.eql(201);
           expect(res.type).to.be.equal('application/json');
         });
+      chai.request(app)
+        .post('/api/v1/customers/auth/signup')
+        .send({
+          firstname: 'john',
+          lastname: 'doe',
+          email: 'expugo@gmail.com',
+          password: '12345678',
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(201);
+          expect(res.type).to.be.equal('application/json');
+        });
       done();
     });
     it('should not register a customer', (done) => {
@@ -63,6 +75,8 @@ describe('Customers Test', () => {
       done();
     });
   });
+
+
   describe('POST /api/v1/customers/auth/login', () => {
     it('should not login the user', (done) => {
       chai.request(app)
@@ -84,9 +98,10 @@ describe('Customers Test', () => {
         })
         .end((err, res) => {
           expect(res.status).to.be.eql(200);
-          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.be.an('object');
+          process.env.tokenCUST = res.body.token;
+          done();
         });
-      done();
     });
   });
 });

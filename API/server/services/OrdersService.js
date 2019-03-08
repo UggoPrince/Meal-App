@@ -8,16 +8,29 @@ class OrdersService {
     this.orders = orders;
   }
 
-  async getAllOrders() {
+  async getAllOrders(id) {
     try {
-      const result = await this.orders.findAndCountAll();
+      const result = await this.orders.findAndCountAll({
+        where: { catererId: id },
+      });
       return result;
     } catch (error) {
       return error;
     }
   }
 
-  async orderIdExist(orderId) {
+  async getOrderByMealCust(ID, mealID, custID) {
+    try {
+      const result = await this.orders.findAndCountAll({
+        where: { id: ID, mealId: mealID, customerId: custID },
+      });
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  /* async orderIdExist(orderId) {
     try {
       const result = await this.orders.findAndCountAll({
         where: { id: orderId },
@@ -26,7 +39,7 @@ class OrdersService {
     } catch (error) {
       return error;
     }
-  }
+  } */
 
   async add(orderData) {
     try {
@@ -39,11 +52,11 @@ class OrdersService {
     }
   }
 
-  async modify(newMealId, ordID) {
+  async modify(ID, newMealId, custID) {
     try {
       const result = await this.orders.update(
         { mealId: newMealId },
-        { returning: true, where: { id: ordID } },
+        { returning: true, where: { id: ID, customerId: custID } },
       );
       return result;
     } catch (error) {

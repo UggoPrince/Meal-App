@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../server/helpers/createDatabaseTables.js"],"names":["seq","createTables"],"mappings":";;AACA;;AADA;AAGAA,gBAAIC,YAAJ,CAAiB,KAAjB","sourcesContent":["/* eslint linebreak-style: [\"error\", \"windows\"] */\r\nimport { seq } from '../models/Sequelizer';\r\n\r\nseq.createTables(false);\r\n"],"file":"createDatabaseTables.js"}

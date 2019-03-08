@@ -9,6 +9,8 @@ var _CustomersService = _interopRequireDefault(require("../services/CustomersSer
 
 var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
 
+var _JWT = _interopRequireDefault(require("../helpers/JWT"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -34,7 +36,7 @@ function () {
       var _getCustomer = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var cust;
+        var cust, token;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -48,7 +50,13 @@ function () {
                 if (cust.count === 0) {
                   res.status(404).send(['Invalid Customer email and/or password. Simply Register.']);
                 } else {
-                  res.status(200).send(cust.rows);
+                  token = _JWT.default.signToken({
+                    data: cust.rows[0],
+                    role: 'customer'
+                  });
+                  res.status(200).send({
+                    token: token
+                  });
                 }
 
               case 4:
@@ -71,7 +79,7 @@ function () {
       var _addCustomer = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var cust, err;
+        var cust, err, token;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -86,7 +94,13 @@ function () {
                   err = (0, _allHelpers.default)(cust.errors);
                   res.status(404).send(err);
                 } else {
-                  res.status(201).send(cust);
+                  token = _JWT.default.signToken({
+                    data: cust,
+                    role: 'customer'
+                  });
+                  res.status(201).send({
+                    token: token
+                  });
                 }
 
               case 4:

@@ -7,7 +7,9 @@ exports.default = void 0;
 
 var _OrdersService = _interopRequireDefault(require("../services/OrdersService"));
 
-var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
+var _MealsService = _interopRequireDefault(require("../services/MealsService"));
+
+var _JWT = _interopRequireDefault(require("../helpers/JWT"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,29 +36,74 @@ function () {
       var _addOrder = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var addedOrder, err;
+        var sentToken, jwt, mealID, meal, catId, reqBody, addedOrder;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return _OrdersService.default.add(req.body);
+                sentToken = req.get('Authorization');
 
-              case 2:
-                addedOrder = _context.sent;
-
-                if (addedOrder.errors) {
-                  err = (0, _allHelpers.default)(addedOrder.errors);
-                  res.status(400).send(err);
-                } else if (addedOrder.name === 'SequelizeDatabaseError') {
-                  res.status(400).send(['An invalid id was sent.']);
-                } else if (addedOrder.name === 'SequelizeForeignKeyConstraintError') {
-                  res.status(404).send([addedOrder.original.detail]);
-                } else {
-                  res.status(201).send(addedOrder);
+                if (!sentToken) {
+                  _context.next = 25;
+                  break;
                 }
 
+                _context.next = 4;
+                return _JWT.default.verifyToken(sentToken);
+
               case 4:
+                jwt = _context.sent;
+
+                if (!(!jwt.tokenExp && jwt.decode.role === 'customer')) {
+                  _context.next = 22;
+                  break;
+                }
+
+                mealID = req.body.mealId;
+                _context.next = 9;
+                return _MealsService.default.getMealById(mealID);
+
+              case 9:
+                meal = _context.sent;
+
+                if (!(meal.count === 0 || meal.name === 'SequelizeDatabaseError')) {
+                  _context.next = 14;
+                  break;
+                }
+
+                res.status(404).send(["No meal with mealId ".concat(mealID, ".")]);
+                _context.next = 20;
+                break;
+
+              case 14:
+                catId = meal.rows[0].catererId;
+                reqBody = {
+                  mealId: mealID,
+                  catererId: catId,
+                  customerId: jwt.decode.data.id
+                };
+                _context.next = 18;
+                return _OrdersService.default.add(reqBody);
+
+              case 18:
+                addedOrder = _context.sent;
+                res.status(201).send(addedOrder);
+
+              case 20:
+                _context.next = 23;
+                break;
+
+              case 22:
+                res.status(401).send(['Session expired. Login as a Customer to make an orders.']);
+
+              case 23:
+                _context.next = 26;
+                break;
+
+              case 25:
+                res.status(401).send(['No Authorization header sent. Login as a Customer and send a token.']);
+
+              case 26:
               case "end":
                 return _context.stop();
             }
@@ -76,29 +123,59 @@ function () {
       var _modifyOrder = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var modOrder, err;
+        var sentToken, jwt, orderID, mealID, modOrder;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return _OrdersService.default.modify(req.body.mealId, req.params.id);
+                sentToken = req.get('Authorization');
 
-              case 2:
+                if (!sentToken) {
+                  _context2.next = 17;
+                  break;
+                }
+
+                _context2.next = 4;
+                return _JWT.default.verifyToken(sentToken);
+
+              case 4:
+                jwt = _context2.sent;
+
+                if (!(!jwt.tokenExp && jwt.decode.role === 'customer')) {
+                  _context2.next = 14;
+                  break;
+                }
+
+                orderID = req.params.id;
+                mealID = req.body.mealId;
+                _context2.next = 10;
+                return _OrdersService.default.modify(orderID, mealID, jwt.decode.data.id);
+
+              case 10:
                 modOrder = _context2.sent;
 
-                if (modOrder.errors) {
-                  err = (0, _allHelpers.default)(modOrder.errors);
-                  res.status(400).send(err);
-                } else if (modOrder.name === 'SequelizeDatabaseError') {
-                  res.status(404).send(['Invalid mealId.']);
-                } else if (modOrder[0] === 0) {
+                if (modOrder[0] === 0) {
                   res.status(404).send(['Invalid orderId.']);
+                } else if (modOrder.name === 'SequelizeDatabaseError') {
+                  res.status(404).send(['Invalid mealId/orderId.']);
                 } else {
                   res.status(200).send(modOrder);
                 }
 
-              case 4:
+                _context2.next = 15;
+                break;
+
+              case 14:
+                res.status(401).send(['Session expired. Login as a Customer to modify your orders.']);
+
+              case 15:
+                _context2.next = 18;
+                break;
+
+              case 17:
+                res.status(401).send(['No Authorization header sent. Login as a Customer and send a token.']);
+
+              case 18:
               case "end":
                 return _context2.stop();
             }
@@ -118,24 +195,55 @@ function () {
       var _getOrders = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3(req, res) {
-        var allOrders;
+        var sentToken, jwt, allOrders;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
-                return _OrdersService.default.getAllOrders();
+                sentToken = req.get('Authorization');
 
-              case 2:
+                if (!sentToken) {
+                  _context3.next = 15;
+                  break;
+                }
+
+                _context3.next = 4;
+                return _JWT.default.verifyToken(sentToken);
+
+              case 4:
+                jwt = _context3.sent;
+
+                if (!(!jwt.tokenExp && jwt.decode.role === 'caterer')) {
+                  _context3.next = 12;
+                  break;
+                }
+
+                _context3.next = 8;
+                return _OrdersService.default.getAllOrders(jwt.decode.data.id);
+
+              case 8:
                 allOrders = _context3.sent;
 
                 if (allOrders.count === 0) {
-                  res.status(200).send(['No orders available.']);
+                  res.status(200).send(['Your Customers have made no order(s).']);
                 } else {
                   res.status(200).send(allOrders);
                 }
 
-              case 4:
+                _context3.next = 13;
+                break;
+
+              case 12:
+                res.status(401).send(['Session expired. Login as a Caterer to view orders.']);
+
+              case 13:
+                _context3.next = 16;
+                break;
+
+              case 15:
+                res.status(401).send(['No Authorization header sent. Login as a Caterer and send a token.']);
+
+              case 16:
               case "end":
                 return _context3.stop();
             }

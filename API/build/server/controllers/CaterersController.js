@@ -9,6 +9,8 @@ var _CaterersService = _interopRequireDefault(require("../services/CaterersServi
 
 var _allHelpers = _interopRequireDefault(require("../helpers/allHelpers"));
 
+var _JWT = _interopRequireDefault(require("../helpers/JWT"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -34,7 +36,7 @@ function () {
       var _getCaterer = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var cust;
+        var cat, token;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -43,12 +45,18 @@ function () {
                 return _CaterersService.default.login(req.body);
 
               case 2:
-                cust = _context.sent;
+                cat = _context.sent;
 
-                if (cust.count === 0) {
+                if (cat.count === 0) {
                   res.status(404).send(['Invalid Caterer email and/or password. Simply Register.']);
                 } else {
-                  res.status(200).send(cust.rows);
+                  token = _JWT.default.signToken({
+                    data: cat.rows[0],
+                    role: 'caterer'
+                  });
+                  res.status(200).send({
+                    token: token
+                  });
                 }
 
               case 4:
@@ -71,7 +79,7 @@ function () {
       var _addCaterer = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var cust, err;
+        var cat, err, token;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -80,13 +88,19 @@ function () {
                 return _CaterersService.default.register(req.body);
 
               case 2:
-                cust = _context2.sent;
+                cat = _context2.sent;
 
-                if (cust.errors) {
-                  err = (0, _allHelpers.default)(cust.errors);
+                if (cat.errors) {
+                  err = (0, _allHelpers.default)(cat.errors);
                   res.status(404).send(err);
                 } else {
-                  res.status(201).send(cust);
+                  token = _JWT.default.signToken({
+                    data: cat,
+                    role: 'caterer'
+                  });
+                  res.status(201).send({
+                    token: token
+                  });
                 }
 
               case 4:

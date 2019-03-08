@@ -37,7 +37,7 @@ function () {
     value: function () {
       var _getAllOrders = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
+      regeneratorRuntime.mark(function _callee(id) {
         var result;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -45,7 +45,11 @@ function () {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return this.orders.findAndCountAll();
+                return this.orders.findAndCountAll({
+                  where: {
+                    catererId: id
+                  }
+                });
 
               case 3:
                 result = _context.sent;
@@ -64,18 +68,18 @@ function () {
         }, _callee, this, [[0, 7]]);
       }));
 
-      function getAllOrders() {
+      function getAllOrders(_x) {
         return _getAllOrders.apply(this, arguments);
       }
 
       return getAllOrders;
     }()
   }, {
-    key: "orderIdExist",
+    key: "getOrderByMealCust",
     value: function () {
-      var _orderIdExist = _asyncToGenerator(
+      var _getOrderByMealCust = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(orderId) {
+      regeneratorRuntime.mark(function _callee2(ID, mealID, custID) {
         var result;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -85,13 +89,15 @@ function () {
                 _context2.next = 3;
                 return this.orders.findAndCountAll({
                   where: {
-                    id: orderId
+                    id: ID,
+                    mealId: mealID,
+                    customerId: custID
                   }
                 });
 
               case 3:
                 result = _context2.sent;
-                return _context2.abrupt("return", result.count);
+                return _context2.abrupt("return", result);
 
               case 7:
                 _context2.prev = 7;
@@ -106,12 +112,23 @@ function () {
         }, _callee2, this, [[0, 7]]);
       }));
 
-      function orderIdExist(_x) {
-        return _orderIdExist.apply(this, arguments);
+      function getOrderByMealCust(_x2, _x3, _x4) {
+        return _getOrderByMealCust.apply(this, arguments);
       }
 
-      return orderIdExist;
+      return getOrderByMealCust;
     }()
+    /* async orderIdExist(orderId) {
+      try {
+        const result = await this.orders.findAndCountAll({
+          where: { id: orderId },
+        });
+        return result.count;
+      } catch (error) {
+        return error;
+      }
+    } */
+
   }, {
     key: "add",
     value: function () {
@@ -160,7 +177,7 @@ function () {
         }, _callee3, this, [[0, 13]]);
       }));
 
-      function add(_x2) {
+      function add(_x5) {
         return _add.apply(this, arguments);
       }
 
@@ -171,7 +188,7 @@ function () {
     value: function () {
       var _modify = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(newMealId, ordID) {
+      regeneratorRuntime.mark(function _callee4(ID, newMealId, custID) {
         var result;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -184,7 +201,8 @@ function () {
                 }, {
                   returning: true,
                   where: {
-                    id: ordID
+                    id: ID,
+                    customerId: custID
                   }
                 });
 
@@ -205,7 +223,7 @@ function () {
         }, _callee4, this, [[0, 7]]);
       }));
 
-      function modify(_x3, _x4) {
+      function modify(_x6, _x7, _x8) {
         return _modify.apply(this, arguments);
       }
 

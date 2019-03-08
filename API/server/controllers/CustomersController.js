@@ -2,6 +2,7 @@
 /* eslint-disable class-methods-use-this */
 import customersService from '../services/CustomersService';
 import getErrorMessage from '../helpers/allHelpers';
+import JWT from '../helpers/JWT';
 
 class CustomersController {
   async getCustomer(req, res) {
@@ -9,7 +10,8 @@ class CustomersController {
     if (cust.count === 0) {
       res.status(404).send(['Invalid Customer email and/or password. Simply Register.']);
     } else {
-      res.status(200).send(cust.rows);
+      const token = JWT.signToken({ data: cust.rows[0], role: 'customer' });
+      res.status(200).send({ token });
     }
   }
 
@@ -19,7 +21,8 @@ class CustomersController {
       const err = getErrorMessage(cust.errors);
       res.status(404).send(err);
     } else {
-      res.status(201).send(cust);
+      const token = JWT.signToken({ data: cust, role: 'customer' });
+      res.status(201).send({ token });
     }
   }
 }
