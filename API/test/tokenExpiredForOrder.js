@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint linebreak-style: ["error", "windows"] */
-/* global describe:true, it:true */
+/* global describe:true, it:true, after */
 import 'babel-polyfill';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
@@ -12,6 +12,9 @@ dotenv.config();
 chai.use(chaiHttp);
 
 describe('Order test when token expires', () => {
+  after(() => {
+    process.env.tokenTime = 3600;
+  });
   it('should tell caterer that token has expired', (done) => {
     chai.request(app)
       .post('/api/v1/orders')
