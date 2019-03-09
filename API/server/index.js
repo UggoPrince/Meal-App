@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.status(200).send(
   '<div>'
       + '<h1>Welcome to Meal-Booking-App</h1>'
+      + '<h2><a href="https://app.swaggerhub.com/apis-docs/uggo/meal-booking-api/1.0.0" style="text-decoration:none;">API Documentation on Swagger</a></h2>'
       + '<h3>Below are the endpoints to access this API</h3>'
       + '<ul>'
         + '<li><p>Send Header >>> Authorization : token</p></li>'
